@@ -379,6 +379,7 @@
     import { getAuth, onAuthStateChanged, signOut, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
     import { getFirestore, doc, getDoc, collection, query, where, getDocs, serverTimestamp, addDoc, updateDoc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+    // Firebase config from your previous code
     const firebaseConfig = {
       apiKey: "AIzaSyCuttEadee0V2YOZHmG53a2Rck7AvFCFEM",
       authDomain: "mercato-2cf1d.firebaseapp.com",
@@ -395,6 +396,7 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
+    // Make Firebase instances globally available
     window.firebaseApp = app;
     window.firebaseAuth = auth;
     window.firebaseFirestore = {
@@ -414,7 +416,11 @@
     };
     window.firebaseAuthInstance = auth; 
 
-    async function initializeAuthForCanvas() {
+    // This flag ensures the React app is only rendered once.
+    let reactAppRendered = false;
+
+    // Function to initialize authentication and render the React app
+    async function initializeAuthAndRenderApp() {
       try {
         if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
           await signInWithCustomToken(auth, __initial_auth_token);
@@ -426,28 +432,47 @@
       } catch (error) {
         console.error("Firebase Auth Error during initialization:", error);
       }
-    }
-    initializeAuthForCanvas();
 
-    onAuthStateChanged(auth, async (user) => { 
-      const initialLoadingScreen = document.getElementById('initial-loading');
-      if (initialLoadingScreen) {
-        initialLoadingScreen.style.display = 'none';
-      }
+      // Listen for auth state changes and render the app
+      onAuthStateChanged(auth, (user) => { 
+        if (!reactAppRendered) { // Only render if not already rendered
+          const initialLoadingScreen = document.getElementById('initial-loading');
+          if (initialLoadingScreen) {
+            initialLoadingScreen.style.display = 'none'; // Hide loading screen
+          }
 
-      if (!user) {
-        console.log("Firebase Auth State Changed. No user logged in. Redirecting to login.html...");
-        window.location.href = 'login.html';
-      } else {
-        console.log("Firebase Auth State Changed. User UID:", user.uid);
-        if (window.renderApp) {
-          window.renderApp(user); 
-        } else {
-          console.error("Window.renderApp is not defined. React app might not be loaded yet.");
+          if (!user) {
+            console.log("Firebase Auth State Changed. No user logged in. Redirecting to login.html...");
+            window.location.href = 'login.html'; // Redirect if no user
+          } else {
+            console.log("Firebase Auth State Changed. User UID:", user.uid);
+            // Ensure renderApp is defined before calling it
+            if (window.renderApp) {
+              ReactDOM.render(<App currentUser={user} />, document.getElementById('root'));
+              reactAppRendered = true; // Set flag to true after rendering
+            } else {
+              console.error("Window.renderApp is not defined. React app might not be loaded yet.");
+              // Fallback: If renderApp is not ready, re-check after a short delay
+              // This is a safety net but ideally, script loading order handles this.
+              setTimeout(() => {
+                if (window.renderApp && !reactAppRendered) {
+                  ReactDOM.render(<App currentUser={user} />, document.getElementById('root'));
+                  reactAppRendered = true;
+                }
+              }, 100); 
+            }
+          }
         }
-      }
+      });
+    }
+
+    // Call the combined initialization and render function once the DOM is fully loaded.
+    // This ensures that all HTML elements are available before React tries to attach to #root.
+    document.addEventListener('DOMContentLoaded', () => {
+      initializeAuthAndRenderApp();
     });
 
+    // Make handleSignOut globally available
     window.handleSignOut = async () => {
       try {
         await signOut(window.firebaseAuthInstance);
@@ -513,6 +538,7 @@
     };
 
     // Global function to render the React app after authentication
+    // This is now called by the Firebase script after auth state is determined
     window.renderApp = (user) => {
       const initialLoadingScreen = document.getElementById('initial-loading');
       if (initialLoadingScreen) {
@@ -756,7 +782,7 @@
             productsQuery = window.firebaseFirestore.query(
                 productsQuery,
                 window.firebaseFirestore.where('category', '==', categoryCode),
-                window.firebaseFirestore.where('is_daily_deal', '==', true) // Added filter for daily deals
+                window.firebaseFirestore.where('is_daily_deal', '==', true) 
             );
             console.log("ProductDisplayGrid: Applied daily deals filter: category == daily-deals AND is_daily_deal == true");
           } else {
@@ -769,7 +795,16 @@
             console.log("ProductDisplayGrid: Attempting to get documents with query...");
             const querySnapshot = await window.firebaseFirestore.getDocs(productsQuery);
             let fetchedProducts = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            console.log("ProductDisplayGrid: Fetched", fetchedProducts.length, "products before client-side filters/sorting.");
+            console.log("ProductDisplayGrid: Fetched", fetchedProducts.length, "products before client-side filters/sorting and expiry filter.");
+
+            const now = new Date();
+            // Client-side expiry filtering: Filter out products where expires_at is in the past
+            fetchedProducts = fetchedProducts.filter(product => {
+                const expiresAt = product.expires_at ? product.expires_at.toDate() : null; // Convert Firebase Timestamp to JS Date
+                return !expiresAt || expiresAt > now; // Keep if no expiry date or if expiry date is in the future
+            });
+            console.log("ProductDisplayGrid: Products after expiry filter:", fetchedProducts.length);
+
 
             // Client-side search filtering
             if (searchTerm) {
@@ -837,7 +872,7 @@
       
       if (products.length === 0) { 
         return (
-          <div className="text-center p-3.5 bg-gray-50 border border-gray-300 text-gray-700 rounded-md shadow-sm my-3.5 mx-auto max-w-xs flex flex-col items-center">
+          <div className="text-center p-3.5 bg-gray-50 border border-gray-300 text-gray-700 rounded-md shadow-sm my 3.5 mx-auto max-w-xs flex flex-col items-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-package-x text-gray-500 mb-1.5"><path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v6a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 14z"/><path d="m3 7 9 5 9-5"/><path d="m3 14 9 5 9-5"/><path d="m8 8 8 8"/><path d="m16 8-8 8"/></svg>
             <p className="text-base font-bold mb-1.5">لا توجد منتجات حاليًا في هذا القسم أو لهذه الدولة!</p>
             <p className="text-xs leading-relaxed">
@@ -1268,15 +1303,6 @@
         </div>
       );
     };
-
-    // عرض شاشة التحميل الأولية حتى يتم التحقق من المصادقة
-    ReactDOM.render(
-      <div id="initial-loading" class="flex flex-col items-center justify-center min-h-screen">
-          <div class="loading-spinner"></div>
-          <p class="text-xl text-gray-300 mt-2">جاري التحقق من تسجيل الدخول...</p>
-      </div>,
-      document.getElementById('root')
-    );
   </script>
 </body>
 </html>
