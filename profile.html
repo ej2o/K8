@@ -135,19 +135,19 @@
       min-height: 100vh;
       line-height: 1.6;
       text-align: right;
-      font-size: 0.8rem; /* تم تكبير حجم الخط الأساسي */
+      font-size: 0.625rem; /* ~78% من 0.8rem، لتقليص العناصر الأخرى بشكل فعال */
     }
 
     /* أحجام الخطوط في Tailwind - للحفاظ على أحجام النصوص جيدة */
-    .text-xs { font-size: 0.85rem; } /* تم التعديل */
-    .text-sm { font-size: 0.95rem; } /* تم التعديل */
-    .text-base { font-size: 1.1rem; } /* تم التعديل */
-    .text-lg { font-size: 1.25rem; } /* تم التعديل */
-    .text-xl { font-size: 1.45rem; } /* تم التعديل */
-    .text-2xl { font-size: 1.7rem; } /* تم التعديل */
-    .text-3xl { font-size: 2.1rem; } /* تم التعديل */
-    .text-4xl { font-size: 2.5rem; } /* تم التعديل */
-    .text-5xl { font-size: 2.8rem; } /* تم التعديل */
+    .text-xs { font-size: 0.7rem; }
+    .text-sm { font-size: 0.8rem; }
+    .text-base { font-size: 0.9rem; }
+    .text-lg { font-size: 1.05rem; }
+    .text-xl { font-size: 1.25rem; }
+    .text-2xl { font-size: 1.5rem; }
+    .text-3xl { font-size: 1.875rem; }
+    .text-4xl { font-size: 2.25rem; }
+    .text-5xl { font-size: 2.5rem; }
 
     /* أنماط شاشة التحميل الأولية */
     #initial-loading {
@@ -165,13 +165,13 @@
         color: #F8F8F8;
     }
     .loading-spinner {
-        border: 4px solid #2C3E50; /* تم التعديل */
-        border-top: 4px solid #D4AF37; /* تم التعديل */
+        border: 3.6px solid #2C3E50;
+        border-top: 3.6px solid #D4AF37;
         border-radius: 50%;
-        width: 30px; /* تم التعديل */
-        height: 30px; /* تم التعديل */
+        width: 22.5px;
+        height: 22.5px;
         animation: spin 1s linear infinite;
-        margin-bottom: 9px; /* تم التعديل */
+        margin-bottom: 6.75px;
     }
     @keyframes spin {
         0% { transform: rotate(0deg); }
@@ -196,32 +196,32 @@
       background-color: #D4AF37;
       color: #1A2C42;
       font-weight: 800;
-      padding: 0.6rem 1.8rem; /* تم التعديل */
+      padding: 0.4rem 1.3rem;
       border-radius: 9999px;
-      box-shadow: 0 3px 8px rgba(212, 175, 55, 0.4); /* تم التعديل */
+      box-shadow: 0 2.5px 6.5px rgba(212, 175, 55, 0.4);
       transition: all 0.3s ease;
-      font-size: 1rem; /* تم التعديل */
+      font-size: 0.7rem;
     }
     .btn-primary:hover {
       background-color: #C29B27;
       transform: translateY(-1px);
-      box-shadow: 0 5px 10px rgba(212, 175, 55, 0.6); /* تم التعديل */
+      box-shadow: 0 4px 8px rgba(212, 175, 55, 0.6);
     }
     .btn-secondary {
       background-color: transparent;
       border: 1px solid #D4AF37;
       color: #D4AF37;
       font-weight: 700;
-      padding: 0.55rem 1.7rem; /* تم التعديل */
+      padding: 0.35rem 1.2rem;
       border-radius: 9999px;
       transition: all 0.3s ease;
-      font-size: 1rem; /* تم التعديل */
+      font-size: 0.7rem;
     }
     .btn-secondary:hover {
       background-color: #D4AF37;
       color: #1A2C42;
       transform: translateY(-0.7px);
-      box-shadow: 0 2px 6px rgba(212, 175, 55, 0.3); /* تم التعديل */
+      box-shadow: 0 1.5px 4.5px rgba(212, 175, 55, 0.3);
     }
 
     /* أنماط المودال المخصصة (بدلاً من alert) */
@@ -247,13 +247,13 @@
     .custom-modal-content {
       background-color: #1F2E40;
       color: #F8F8F8;
-      padding: 20px; /* تم التعديل */
-      border-radius: 15px; /* تم التعديل */
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4); /* تم التعديل */
-      max-width: 320px; /* تم التعديل */
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+      max-width: 270px;
       width: 90%;
       text-align: center;
-      transform: translateY(-15px); /* تم التعديل */
+      transform: translateY(-12px);
       opacity: 0;
       transition: transform 0.3s ease, opacity 0.3s ease;
     }
@@ -262,14 +262,14 @@
       opacity: 1;
     }
     .custom-modal-content .p-4 {
-        padding: 12px; /* تم التعديل */
-        border-radius: 8px; /* تم التعديل */
+        padding: 10px;
+        border-radius: 6px;
     }
     .custom-modal-content .text-2xl {
-        font-size: 1.5rem; /* تم التعديل */
+        font-size: 1.25rem;
     }
     .custom-modal-content .text-lg {
-        font-size: 1.1rem; /* تم التعديل */
+        font-size: 0.9rem;
     }
     .custom-modal-content .bg-green-100 { background-color: #38A169; }
     .custom-modal-content .text-green-700 { color: #D6FAE9; }
@@ -279,17 +279,17 @@
     .custom-modal-content .border-red-400 { border-color: #F6AD55; }
     .custom-modal-content .bg-[#1A2C42] { background-color: #D4AF37; color: #1A2C42; }
     .custom-modal-content .hover:bg-[#5A7D9D]:hover { background-color: #C29B27; }
-    .custom-modal-content .shadow-lg { box-shadow: 0 5px 10px rgba(0,0,0,0.3); } /* تم التعديل */
+    .custom-modal-content .shadow-lg { box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
 
     /* أنماط زر العودة للأعلى */
     .scroll-to-top {
       position: fixed;
-      bottom: 25px; /* تم التعديل */
-      right: 25px; /* تم التعديل */
+      bottom: 20px;
+      right: 20px;
       background-color: #D4AF37;
       color: #1A2C42;
       border-radius: 50%;
-      padding: 12px; /* تم التعديل */
+      padding: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -298,19 +298,19 @@
       visibility: hidden;
       transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
       z-index: 999;
-      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); /* تم التعديل */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
     .scroll-to-top.show {
       opacity: 1;
       visibility: visible;
     }
     .scroll-to-top:hover {
-      transform: translateY(-4px); /* تم التعديل */
-      box-shadow: 0 7px 14px rgba(0, 0, 0, 0.3); /* تم التعديل */
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
     }
     .scroll-to-top svg {
-      width: 20px; /* تم التعديل */
-      height: 20px; /* تم التعديل */
+      width: 17px;
+      height: 17px;
       stroke-width: 2.5;
     }
 
@@ -318,44 +318,40 @@
     .profile-card {
         background: #1F2E40; /* خلفية داكنة لبطاقة الملف الشخصي */
         color: #F8F8F8; /* نص فاتح */
-        padding: 30px; /* تم التعديل */
-        border-radius: 20px; /* تم التعديل */
-        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4); /* تم التعديل */
+        padding: 25px;
+        border-radius: 18px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
     }
     /* تحديث: تكبير حقول الإدخال وجعل النص أسود */
-    .profile-card input, .profile-card select,
-    .tab-content-section input, .tab-content-section select { /* تم إضافة .tab-content-section */
+    .profile-card input, .profile-card select {
         background: #F8F8F8; /* خلفية إدخال فاتحة */
         color: #000000; /* نص إدخال داكن جداً (أسود) */
         border: 1px solid #5A7D9D; /* حدود خفيفة */
-        padding: 22px; /* زيادة حجم الحقل بشكل أكبر */
-        border-radius: 10px; /* تم التعديل */
-        font-size: 1.4rem; /* تكبير حجم النص داخل الحقول */
+        padding: 18px; /* زيادة حجم الحقل بشكل أكبر */
+        border-radius: 8px;
+        font-size: 1.2rem; /* تكبير حجم النص داخل الحقول */
         line-height: 1.5; /* لتحسين التباعد الرأسي للنص */
         height: auto; /* السماح للارتفاع بالتكيف مع المحتوى */
     }
-    .profile-card input::placeholder, .profile-card select::placeholder,
-    .tab-content-section input::placeholder, .tab-content-section select::placeholder { /* تم إضافة .tab-content-section */
+    .profile-card input::placeholder, .profile-card select::placeholder {
         color: #A0AEC0; /* نص عنصر نائب أفتح */
     }
-    .profile-card input:focus, .profile-card select:focus,
-    .tab-content-section input:focus, .tab-content-section select:focus { /* تم إضافة .tab-content-section */
+    .profile-card input:focus, .profile-card select:focus {
         border-color: #D4AF37; /* حدود ذهبية عند التركيز */
-        box-shadow: 0 0 0 2px #D4AF37; /* حلقة تركيز ذهبية (تم التعديل) */
+        box-shadow: 0 0 0 1px #D4AF37; /* حلقة تركيز ذهبية */
     }
-    .profile-card .animate-spin,
-    .tab-content-section .animate-spin { /* تم إضافة .tab-content-section */
+    .profile-card .animate-spin {
         color: #F8F8F8; /* مؤشر تحميل أبيض */
     }
     /* أنماط أزرار التبويب */
     .tab-button {
       background-color: #2C3E50;
       color: #F8F8F8;
-      padding: 12px 18px; /* تم التعديل */
-      border-radius: 10px; /* تم التعديل */
+      padding: 10px 15px;
+      border-radius: 8px;
       font-weight: bold;
       transition: all 0.3s ease;
-      font-size: 1rem; /* تم التعديل */
+      font-size: 0.8rem;
     }
     .tab-button:hover {
       background-color: #5A7D9D;
@@ -363,15 +359,27 @@
     .tab-button.active {
       background-color: #D4AF37;
       color: #1A2C42;
-      box-shadow: 0 5px 12px rgba(212, 175, 55, 0.4); /* تم التعديل */
+      box-shadow: 0 4px 10px rgba(212, 175, 55, 0.4);
     }
     .tab-content-section {
       background: #1F2E40;
-      border-radius: 15px; /* تم التعديل */
-      padding: 25px; /* تم التعديل */
-      margin-top: 20px; /* تم التعديل */
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4); /* تم التعديل */
-      color: #D4AF37; /* جعل النص في قسم الأمان ذهبيًا */
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 15px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+    }
+    /* أنماط خاصة بقسم الأمان فقط */
+    .tab-content-section.security-tab-content label { /* لتطبيق اللون الذهبي على العناوين فقط في قسم الأمان */
+        color: #D4AF37;
+        font-size: 1.1rem; /* تكبير الخط للنص نفسه */
+    }
+    .tab-content-section.security-tab-content p { /* لتطبيق اللون الذهبي على النصوص العادية في قسم الأمان */
+        color: #D4AF37;
+        font-size: 1rem; /* تكبير الخط للنص نفسه */
+    }
+    .tab-content-section.security-tab-content input {
+        padding: 18px; /* تكبير مربعات الإدخال */
+        font-size: 1.2rem; /* تكبير الخط داخل مربعات الإدخال */
     }
     /* نمط جديد لحاوية حقل كلمة المرور مع زر العين */
     .password-input-container {
@@ -379,7 +387,7 @@
     }
     .password-toggle-button {
         position: absolute;
-        left: 15px; /* المسافة من اليسار (لأن الاتجاه RTL) - تم التعديل */
+        left: 10px; /* المسافة من اليسار (لأن الاتجاه RTL) */
         top: 50%;
         transform: translateY(-50%);
         background: none;
@@ -394,8 +402,8 @@
         color: #D4AF37; /* لون ذهبي عند التحويم */
     }
     .password-toggle-button svg {
-        width: 28px; /* تكبير حجم أيقونة العين - تم التعديل */
-        height: 28px; /* تكبير حجم أيقونة العين - تم التعديل */
+        width: 24px; /* تكبير حجم أيقونة العين */
+        height: 24px;
     }
   </style>
 </head>
@@ -523,7 +531,7 @@
             </div>
 
             {/* قائمة التنقل الرئيسية (المنتصف) */}
-            <nav className="flex items-center space-x-2 space-x-reverse text-sm font-semibold flex-grow justify-center"> {/* تم تغيير text-xs إلى text-sm */}
+            <nav className="flex items-center space-x-2 space-x-reverse text-xs font-semibold flex-grow justify-center">
               <a href="index.html" className="hover:text-[#D4AF37] transition-colors p-0.5 rounded-xs hover:bg-white hover:bg-opacity-10">
                 الرئيسية
               </a>
@@ -545,11 +553,11 @@
             <div className="flex items-center space-x-1.5 space-x-reverse">
               {/* زر السلة - يظهر دائمًا */}
               <a href="cart.html" className="relative p-1.5 rounded-full bg-[#5A7D9D] hover:bg-[#D4AF37] hover:text-[#1A2C42] transition-colors flex items-center justify-center text-white focus:outline-none focus:ring-1 focus:ring-[#D4AF37]" aria-label="السلة">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-shopping-cart"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57L23 4H5.2"/>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-shopping-cart"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57L23 4H5.2"/>
                 </svg>
                 {/* عدد المنتجات في السلة */}
                 {cartItemCount > 0 && (
-                  <span className="absolute -top-1 -left-1 bg-red-600 text-white text-[0.7rem] rounded-full px-1.5 py-0.5 font-bold leading-none"> {/* تم تغيير text-[0.6rem] إلى text-[0.7rem] */}
+                  <span className="absolute -top-1 -left-1 bg-red-600 text-white text-[0.6rem] rounded-full px-1.5 py-0.5 font-bold leading-none">
                     {cartItemCount}
                   </span>
                 )}
@@ -557,8 +565,8 @@
 
               {isLoggedIn ? (
                 <div className="relative group">
-                  <a href="profile.html" className="flex items-center text-white font-bold py-1 px-2 rounded-full bg-[#5A7D9D] hover:bg-[#D4AF37] hover:text-[#1A2C42] transition-colors duration-300 shadow-xs text-sm"> {/* تم تغيير text-xs إلى text-sm */}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-user-circle ml-0.5">
+                  <a href="profile.html" className="flex items-center text-white font-bold py-1 px-2 rounded-full bg-[#5A7D9D] hover:bg-[#D4AF37] hover:text-[#1A2C42] transition-colors duration-300 shadow-xs text-xs">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-user-circle ml-0.5">
                       <circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/>
                     </svg>
                     الملف الشخصي
@@ -610,7 +618,7 @@
           className={`scroll-to-top ${isVisible ? 'show' : ''}`}
           aria-label="العودة للأعلى"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-up"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-up"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
         </button>
       );
     };
@@ -623,8 +631,8 @@
             {/* معلومات الاتصال */}
             <div className="animate-fade-in-up">
               <h3 className="text-base font-bold mb-1.5 text-[#D4AF37]">تواصل معنا</h3>
-              <p className="text-sm mb-1 text-gray-400">البريد الإلكتروني: info@mercato.com</p> {/* تم تغيير text-xs إلى text-sm */}
-              <p className="text-sm text-gray-400">الهاتف: +966 50 123 4567</p> {/* تم تغيير text-xs إلى text-sm */}
+              <p className="text-xs mb-1 text-gray-400">البريد الإلكتروني: info@mercato.com</p>
+              <p className="text-xs text-gray-400">الهاتف: +966 50 123 4567</p>
             </div>
 
             {/* روابط سريعة */}
@@ -632,27 +640,27 @@
               <h3 className="text-base font-bold mb-1.5 text-[#D4AF37]">روابط سريعة</h3>
               <ul className="space-y-0.75">
                 <li>
-                  <a href="index.html" className="text-gray-400 hover:text-white transition-colors text-sm"> {/* تم تغيير text-xs إلى text-sm */}
+                  <a href="index.html" className="text-gray-400 hover:text-white transition-colors text-xs">
                     الرئيسية
                   </a>
                 </li>
                 <li>
-                  <a href="all-categories.html" className="text-gray-400 hover:text-white transition-colors text-sm"> {/* تم تغيير text-xs إلى text-sm */}
+                  <a href="all-categories.html" className="text-gray-400 hover:text-white transition-colors text-xs">
                     أقسامنا
                   </a>
                 </li>
                 <li>
-                  <a href="daily-deals.html" className="text-gray-400 hover:text-white transition-colors text-sm"> {/* تم تغيير text-xs إلى text-sm */}
+                  <a href="daily-deals.html" className="text-gray-400 hover:text-white transition-colors text-xs">
                     عروض اليوم
                   </a>
                 </li>
                 <li>
-                  <a href="faq.html" className="text-gray-400 hover:text-white transition-colors text-sm"> {/* تم تغيير text-xs إلى text-sm */}
+                  <a href="faq.html" className="text-gray-400 hover:text-white transition-colors text-xs">
                     الأسئلة الشائعة
                   </a>
                 </li>
                 <li>
-                  <a href="contact.html" className="text-gray-400 hover:text-white transition-colors text-sm"> {/* تم تغيير text-xs إلى text-sm */}
+                  <a href="contact.html" className="text-gray-400 hover:text-white transition-colors text-xs">
                     اتصل بنا
                   </a>
                 </li>
@@ -670,7 +678,7 @@
                   className="text-gray-400 hover:text-[#D4AF37] transition-colors transform hover:scale-110 duration-300"
                   aria-label="TikTok"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="0" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-tiktok"><path d="M9 12v6H5v-6H2l-2 8c0 2 2 2 2 2h6s2 0 2-2V9a2 2 0 0 0-2-2H9v5zm8 0h3l1 7c0 2-2 2-2 2h-6s-2 0-2-2v-4a2 2 0 0 0 2-2h3V2h4v10z"/></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="0" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-tiktok"><path d="M9 12v6H5v-6H2l-2 8c0 2 2 2 2 2h6s2 0 2-2V9a2 2 0 0 0-2-2H9v5zm8 0h3l1 7c0 2-2 2-2 2h-6s-2 0-2-2v-4a2 2 0 0 0 2-2h3V2h4v10z"/></svg>
                 </a>
                 <a
                   href="https://www.instagram.com/mercato.0?igsh=MWRvangxbHdqcXA0bQ=="
@@ -679,7 +687,7 @@
                   className="text-gray-400 hover:text-[#D4AF37] transition-colors transform hover:scale-110 duration-300"
                   aria-label="Instagram"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-instagram"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-instagram"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
                 </a>
                 <a
                   href="https://t.me/mercato00"
@@ -688,12 +696,12 @@
                   className="text-gray-400 hover:text-[#D4AF37] transition-colors transform hover:scale-110 duration-300"
                   aria-label="Telegram"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.36 5.66c-.45-.24-1.07-.1-.99.55l-.54 3.25c-.07.4-.4.68-.8.68h-.02a.75.75 0 0 1-.74-.85l.77-5.07c.05-.33-.1-.66-.43-.76l-14-4.83c-.45-.15-.9.13-1.01.58-.23 1.07.72 6.57 1.13 8.84.14.77.7 1.34 1.48 1.54l3.59 1.05a2 2 0 0 0 1.52-.34l5.31-4.13c.3-.24.74-.29 1.09-.13.38.17.6.58.5.99l-2.07 4.97c-.24.56-.05 1.2.45 1.56l.01.01c.5.37 1.25.32 1.68-.13l3.22-3.23c.3-.3.47-.7.47-1.13V6.21c0-.49-.2-.9-.59-1.25z"/></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.36 5.66c-.45-.24-1.07-.1-.99.55l-.54 3.25c-.07.4-.4.68-.8.68h-.02a.75.75 0 0 1-.74-.85l.77-5.07c.05-.33-.1-.66-.43-.76l-14-4.83c-.45-.15-.9.13-1.01.58-.23 1.07.72 6.57 1.13 8.84.14.77.7 1.34 1.48 1.54l3.59 1.05a2 2 0 0 0 1.52-.34l5.31-4.13c.3-.24.74-.29 1.09-.13.38.17.6.58.5.99l-2.07 4.97c-.24.56-.05 1.2.45 1.56l.01.01c.5.37 1.25.32 1.68-.13l3.22-3.23c.3-.3.47-.7.47-1.13V6.21c0-.49-.2-.9-.59-1.25z"/></svg>
                 </a>
               </div>
             </div>
           </div>
-          <div className="border-t border-gray-600 mt-3.5 pt-3.5 text-center text-gray-500 text-sm"> {/* تم تغيير text-xs إلى text-sm */}
+          <div className="border-t border-gray-600 mt-3.5 pt-3.5 text-center text-gray-500 text-xs">
             <p>&copy; 2025 ميركاتو. جميع الحقوق محفوظة.</p>
             <p className="mt-1">مصمم بحب لتقديم أفضل تجربة تسوق.</p>
           </div>
@@ -1129,7 +1137,7 @@
             )}
 
             {activeTab === 'security' && (
-              <div className="tab-content-section w-full max-w-xs mx-auto">
+              <div className="tab-content-section security-tab-content w-full max-w-xs mx-auto"> {/* إضافة security-tab-content class هنا */}
                 <h3 className="text-xl font-bold text-[#D4AF37] mb-4 text-center">تغيير كلمة المرور</h3>
                 {/* التحقق مما إذا كان المستخدم قد سجل الدخول باستخدام بريد إلكتروني وكلمة مرور */}
                 {currentUser?.providerData && currentUser.providerData[0]?.providerId === 'password' ? (
@@ -1137,7 +1145,7 @@
                         {!forgotPasswordMode ? (
                             <>
                                 <div className="mb-4 password-input-container">
-                                    <label className="block text-lg font-semibold text-[#D4AF37] mb-2" htmlFor="old-password"> {/* تم التعديل */}
+                                    <label className="block font-semibold mb-1" htmlFor="old-password">
                                         كلمة المرور القديمة:
                                     </label>
                                     <input
@@ -1145,7 +1153,7 @@
                                         id="old-password"
                                         value={oldPassword}
                                         onChange={(e) => setOldPassword(e.target.value)}
-                                        className="w-full text-lg p-4" {/* تم التعديل */}
+                                        className="w-full"
                                         placeholder="أدخل كلمة المرور القديمة"
                                         required
                                         autoComplete="off"
@@ -1156,14 +1164,14 @@
                                         className="password-toggle-button"
                                     >
                                         {showOldPassword ? (
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.54 18.54 0 0 1 2.21-3.02M5.07 5.07A10.91 10.91 0 0 1 8 4c7 0 11 8 11 8a18.54 18.54 0 0 1-2.21 3.02M9.36 10.64a3 3 0 1 0 4.24 4.24M1 1l22 22"/></svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.54 18.54 0 0 1 2.21-3.02M5.07 5.07A10.91 10.91 0 0 1 8 4c7 0 11 8 11 8a18.54 18.54 0 0 1-2.21 3.02M9.36 10.64a3 3 0 1 0 4.24 4.24M1 1l22 22"/></svg>
                                         ) : (
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                                         )}
                                     </button>
                                 </div>
                                 <div className="mb-4 password-input-container">
-                                    <label className="block text-lg font-semibold text-[#D4AF37] mb-2" htmlFor="new-password"> {/* تم التعديل */}
+                                    <label className="block font-semibold mb-1" htmlFor="new-password">
                                         كلمة المرور الجديدة:
                                     </label>
                                     <input
@@ -1171,7 +1179,7 @@
                                         id="new-password"
                                         value={newPassword}
                                         onChange={(e) => setNewPassword(e.target.value)}
-                                        className="w-full text-lg p-4" {/* تم التعديل */}
+                                        className="w-full"
                                         placeholder="أدخل كلمة المرور الجديدة"
                                         required
                                         autoComplete="new-password"
@@ -1182,14 +1190,14 @@
                                         className="password-toggle-button"
                                     >
                                         {showNewPassword ? (
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.54 18.54 0 0 1 2.21-3.02M5.07 5.07A10.91 10.91 0 0 1 8 4c7 0 11 8 11 8a18.54 18.54 0 0 1-2.21 3.02M9.36 10.64a3 3 0 1 0 4.24 4.24M1 1l22 22"/></svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.54 18.54 0 0 1 2.21-3.02M5.07 5.07A10.91 10.91 0 0 1 8 4c7 0 11 8 11 8a18.54 18.54 0 0 1-2.21 3.02M9.36 10.64a3 3 0 1 0 4.24 4.24M1 1l22 22"/></svg>
                                         ) : (
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                                         )}
                                     </button>
                                 </div>
                                 <div className="mb-6 password-input-container">
-                                    <label className="block text-lg font-semibold text-[#D4AF37] mb-2" htmlFor="confirm-new-password"> {/* تم التعديل */}
+                                    <label className="block font-semibold mb-1" htmlFor="confirm-new-password">
                                         تأكيد كلمة المرور الجديدة:
                                     </label>
                                     <input
@@ -1197,7 +1205,7 @@
                                         id="confirm-new-password"
                                         value={confirmNewPassword}
                                         onChange={(e) => setConfirmNewPassword(e.target.value)}
-                                        className="w-full text-lg p-4" {/* تم التعديل */}
+                                        className="w-full"
                                         placeholder="أعد إدخال كلمة المرور الجديدة"
                                         required
                                         autoComplete="new-password"
@@ -1208,9 +1216,9 @@
                                         className="password-toggle-button"
                                     >
                                         {showConfirmNewPassword ? (
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.54 18.54 0 0 1 2.21-3.02M5.07 5.07A10.91 10.91 0 0 1 8 4c7 0 11 8 11 8a18.54 18.54 0 0 1-2.21 3.02M9.36 10.64a3 3 0 1 0 4.24 4.24M1 1l22 22"/></svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.54 18.54 0 0 1 2.21-3.02M5.07 5.07A10.91 10.91 0 0 1 8 4c7 0 11 8 11 8a18.54 18.54 0 0 1-2.21 3.02M9.36 10.64a3 3 0 1 0 4.24 4.24M1 1l22 22"/></svg>
                                         ) : (
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                                         )}
                                     </button>
                                 </div>
@@ -1241,7 +1249,7 @@
                         ) : (
                             <>
                                 <div className="mb-4">
-                                    <label className="block text-lg font-semibold text-[#D4AF37] mb-2" htmlFor="reset-email"> {/* تم التعديل */}
+                                    <label className="block font-semibold mb-1" htmlFor="reset-email">
                                         البريد الإلكتروني:
                                     </label>
                                     <input
@@ -1249,7 +1257,7 @@
                                         id="reset-email"
                                         value={currentUser?.email || ''}
                                         readOnly
-                                        className="w-full text-lg p-4 opacity-75 cursor-not-allowed" {/* تم التعديل */}
+                                        className="w-full opacity-75 cursor-not-allowed"
                                     />
                                 </div>
                                 <button
@@ -1272,12 +1280,12 @@
                                     )}
                                 </button>
                                 {resetEmailSent && (
-                                    <p className="text-base text-[#D4AF37] text-center mb-4"> {/* تم التعديل */}
+                                    <p className="text-sm text-gray-400 text-center mb-4">
                                         تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني. يرجى التحقق من صندوق الوارد الخاص بك (وقسم الرسائل غير المرغوب فيها).
                                     </p>
                                 )}
                                 <div className="mb-4">
-                                    <label className="block text-lg font-semibold text-[#D4AF37] mb-2" htmlFor="verification-code"> {/* تم التعديل */}
+                                    <label className="block font-semibold mb-1" htmlFor="verification-code">
                                         رمز التحقق (من البريد الإلكتروني):
                                     </label>
                                     <input
@@ -1285,14 +1293,14 @@
                                         id="verification-code"
                                         value={verificationCode}
                                         onChange={(e) => setVerificationCode(e.target.value)}
-                                        className="w-full text-lg p-4" {/* تم التعديل */}
+                                        className="w-full"
                                         placeholder="أدخل رمز التحقق"
                                         required
                                         autoComplete="off"
                                     />
                                 </div>
                                 <div className="mb-4 password-input-container">
-                                    <label className="block text-lg font-semibold text-[#D4AF37] mb-2" htmlFor="new-password-reset"> {/* تم التعديل */}
+                                    <label className="block font-semibold mb-1" htmlFor="new-password-reset">
                                         كلمة المرور الجديدة:
                                     </label>
                                     <input
@@ -1300,7 +1308,7 @@
                                         id="new-password-reset"
                                         value={newPassword}
                                         onChange={(e) => setNewPassword(e.target.value)}
-                                        className="w-full text-lg p-4" {/* تم التعديل */}
+                                        className="w-full"
                                         placeholder="أدخل كلمة المرور الجديدة"
                                         required
                                         autoComplete="new-password"
@@ -1311,14 +1319,14 @@
                                         className="password-toggle-button"
                                     >
                                         {showResetNewPassword ? (
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.54 18.54 0 0 1 2.21-3.02M5.07 5.07A10.91 10.91 0 0 1 8 4c7 0 11 8 11 8a18.54 18.54 0 0 1-2.21 3.02M9.36 10.64a3 3 0 1 0 4.24 4.24M1 1l22 22"/></svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.54 18.54 0 0 1 2.21-3.02M5.07 5.07A10.91 10.91 0 0 1 8 4c7 0 11 8 11 8a18.54 18.54 0 0 1-2.21 3.02M9.36 10.64a3 3 0 1 0 4.24 4.24M1 1l22 22"/></svg>
                                         ) : (
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                                         )}
                                     </button>
                                 </div>
                                 <div className="mb-6 password-input-container">
-                                    <label className="block text-lg font-semibold text-[#D4AF37] mb-2" htmlFor="confirm-new-password-reset"> {/* تم التعديل */}
+                                    <label className="block font-semibold mb-1" htmlFor="confirm-new-password-reset">
                                         تأكيد كلمة المرور الجديدة:
                                     </label>
                                     <input
@@ -1326,7 +1334,7 @@
                                         id="confirm-new-password-reset"
                                         value={confirmNewPassword}
                                         onChange={(e) => setConfirmNewPassword(e.target.value)}
-                                        className="w-full text-lg p-4" {/* تم التعديل */}
+                                        className="w-full"
                                         placeholder="أعد إدخال كلمة المرور الجديدة"
                                         required
                                         autoComplete="new-password"
@@ -1337,9 +1345,9 @@
                                         className="password-toggle-button"
                                     >
                                         {showResetConfirmNewPassword ? (
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.54 18.54 0 0 1 2.21-3.02M5.07 5.07A10.91 10.91 0 0 1 8 4c7 0 11 8 11 8a18.54 18.54 0 0 1-2.21 3.02M9.36 10.64a3 3 0 1 0 4.24 4.24M1 1l22 22"/></svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.54 18.54 0 0 1 2.21-3.02M5.07 5.07A10.91 10.91 0 0 1 8 4c7 0 11 8 11 8a18.54 18.54 0 0 1-2.21 3.02M9.36 10.64a3 3 0 1 0 4.24 4.24M1 1l22 22"/></svg>
                                         ) : (
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                                         )}
                                     </button>
                                 </div>
@@ -1370,7 +1378,7 @@
                         )}
                     </>
                 ) : (
-                    <p className="text-[#D4AF37] text-base text-center"> {/* تم التعديل */}
+                    <p className="text-gray-400 text-center">
                         لا يمكنك تغيير كلمة المرور هنا لأن حسابك لم يتم إنشاؤه ببريد إلكتروني وكلمة مرور (على سبيل المثال، تم تسجيل الدخول باستخدام حساب Google أو كضيف).
                     </p>
                 )}
