@@ -24,7 +24,7 @@
   <!-- حزم Firebase SDKs -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signInWithCustomToken, signInAnonymously, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getAuth, onAuthStateChanged, signInWithCustomToken, signInAnonymously, signOut, updatePassword, reauthenticateWithCredential, EmailAuthProvider, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
     import { getFirestore, doc, getDoc, setDoc, serverTimestamp, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
     // تكوين Firebase (يُفضل أن يكون من متغيرات البيئة في بيئة Canvas)
@@ -58,6 +58,14 @@
       onSnapshot: onSnapshot // مطلوب لرأس الصفحة للاستماع إلى تغييرات السلة
     };
     window.firebaseAuthInstance = auth; // جعل مثيل المصادقة متاحًا لتسجيل الخروج
+
+    // إضافة وظائف Firebase Auth لتغيير كلمة المرور وإعادة تعيينها
+    window.firebaseAuthFunctions = {
+        updatePassword: updatePassword,
+        reauthenticateWithCredential: reauthenticateWithCredential,
+        EmailAuthProvider: EmailAuthProvider,
+        sendPasswordResetEmail: sendPasswordResetEmail
+    };
 
     async function initializeAuthForCanvas() {
       try {
@@ -422,7 +430,7 @@
       // تأثير للاستماع إلى تغييرات سلة التسوق في Firestore
       useEffect(() => {
         let unsubscribeCart = () => {};
-        if (currentUser && currentUser.uid) {
+        if (currentUser && currentUser.uid && window.firebaseFirestore && window.firebaseFirestore.onSnapshot) {
           const userCartRef = window.firebaseFirestore.doc(
             window.firebaseFirestore.dbInstance,
             'artifacts',
@@ -430,12 +438,13 @@
             'users',
             currentUser.uid,
             'userCart',
-            'items'
+            'items' // المسار إلى مستند السلة الذي يحتوي على مصفوفة العناصر
           );
 
           unsubscribeCart = window.firebaseFirestore.onSnapshot(userCartRef, (docSnap) => {
             if (docSnap.exists() && docSnap.data().items) {
               const items = docSnap.data().items;
+              // حساب العدد الإجمالي للكميات في السلة
               setCartItemCount(items.reduce((total, item) => total + (item.quantity || 0), 0));
             } else {
               setCartItemCount(0);
@@ -682,7 +691,19 @@
       const [loading, setLoading] = useState(true);
       const [modal, setModal] = useState(null);
       const [isUpdating, setIsUpdating] = useState(false);
-      const [activeTab, setActiveTab] = useState('profile'); // tabs: profile, cart (was wishlist)
+      const [activeTab, setActiveTab] = useState('profile'); // tabs: profile, cart, security
+
+      // New states for password change/reset
+      const [oldPassword, setOldPassword] = useState('');
+      const [newPassword, setNewPassword] = useState('');
+      const [confirmNewPassword, setConfirmNewPassword] = useState('');
+      const [forgotPasswordMode, setForgotPasswordMode] = useState(false); // true if user clicked "Forgot Password?"
+      const [resetEmailSent, setResetEmailSent] = useState(false); // true after sending reset email
+      const [verificationCode, setVerificationCode] = useState(''); // For the "code" input
+      const [isPasswordChanging, setIsPasswordChanging] = useState(false);
+      const [isSendingResetEmail, setIsSendingResetEmail] = useState(false);
+      const [isVerifyingCode, setIsVerifyingCode] = useState(false);
+
       const [cartItems, setCartItems] = useState([]); // لحفظ عناصر السلة
 
       // تأثير لجلب ملف تعريف المستخدم
@@ -739,15 +760,15 @@
       // تأثير لجلب عناصر السلة في الوقت الفعلي
       useEffect(() => {
         let unsubscribeCart = () => {};
-        if (currentUser && currentUser.uid) {
+        if (currentUser && currentUser.uid && window.firebaseFirestore && window.firebaseFirestore.onSnapshot) {
           const userCartDocRef = window.firebaseFirestore.doc(
             window.firebaseFirestore.dbInstance,
             'artifacts',
             window.mercatoAppId,
             'users',
             currentUser.uid,
-            'userCart', // هذا هو اسم المستند الذي سيحتوي على مصفوفة العناصر
-            'items' // هذا هو معرف المستند الفعلي داخل userCart
+            'userCart', // هذا هو اسم المجموعة
+            'items' // هذا هو معرف المستند الفعلي داخل userCart الذي يحتوي على مصفوفة العناصر
           );
 
           unsubscribeCart = window.firebaseFirestore.onSnapshot(userCartDocRef, (docSnap) => {
@@ -783,7 +804,7 @@
         }
 
         if (!editedName.trim()) {
-            setModal({ message: 'الرجاء إدخال الاسم.', type: 'error', onClose: () => setModal(null) });
+            setModal({ message: 'الرجاء إدخال الاسم.', type: () => setModal(null) });
             return;
         }
 
@@ -811,6 +832,112 @@
         } finally {
           setIsUpdating(false);
         }
+      };
+
+      // Function to handle password change (when user knows old password)
+      const handleChangePassword = async () => {
+        if (!currentUser || !currentUser.email || !window.firebaseAuthInstance || !window.firebaseAuthFunctions) {
+          setModal({ message: 'خطأ في المصادقة: المستخدم غير متوفر أو وظائف Firebase غير مهيأة.', type: 'error', onClose: () => setModal(null) });
+          return;
+        }
+        if (!oldPassword || !newPassword || !confirmNewPassword) {
+          setModal({ message: 'الرجاء تعبئة جميع حقول كلمة المرور.', type: 'error', onClose: () => setModal(null) });
+          return;
+        }
+        if (newPassword !== confirmNewPassword) {
+          setModal({ message: 'كلمة المرور الجديدة وتأكيدها غير متطابقين.', type: 'error', onClose: () => setModal(null) });
+          return;
+        }
+        if (newPassword.length < 6) {
+          setModal({ message: 'يجب أن تكون كلمة المرور الجديدة 6 أحرف على الأقل.', type: 'error', onClose: () => setModal(null) });
+          return;
+        }
+
+        setIsPasswordChanging(true);
+        try {
+          // إعادة مصادقة المستخدم قبل تغيير كلمة المرور
+          const credential = window.firebaseAuthFunctions.EmailAuthProvider.credential(currentUser.email, oldPassword);
+          await window.firebaseAuthFunctions.reauthenticateWithCredential(currentUser, credential);
+          // تحديث كلمة المرور
+          await window.firebaseAuthFunctions.updatePassword(currentUser, newPassword);
+          setModal({ message: 'تم تغيير كلمة المرور بنجاح!', type: 'success', onClose: () => setModal(null) });
+          setOldPassword('');
+          setNewPassword('');
+          setConfirmNewPassword('');
+        } catch (error) {
+          console.error("خطأ في تغيير كلمة المرور:", error);
+          let errorMessage = 'فشل تغيير كلمة المرور. يرجى المحاولة مرة أخرى.';
+          if (error.code === 'auth/wrong-password') {
+            errorMessage = 'كلمة المرور القديمة غير صحيحة.';
+          } else if (error.code === 'auth/requires-recent-login') {
+            errorMessage = 'الرجاء تسجيل الدخول مرة أخرى قبل تغيير كلمة المرور (لأسباب أمنية).';
+          }
+          setModal({ message: errorMessage, type: 'error', onClose: () => setModal(null) });
+        } finally {
+          setIsPasswordChanging(false);
+        }
+      };
+
+      // Function to initiate password reset (send email)
+      const handleSendPasswordResetEmail = async () => {
+        if (!currentUser || !currentUser.email || !window.firebaseAuthFunctions || !window.firebaseAuthFunctions.sendPasswordResetEmail) {
+          setModal({ message: 'خطأ: البريد الإلكتروني للمستخدم غير متوفر أو وظائف Firebase غير مهيأة.', type: 'error', onClose: () => setModal(null) });
+          return;
+        }
+        setIsSendingResetEmail(true);
+        try {
+          await window.firebaseAuthFunctions.sendPasswordResetEmail(window.firebaseAuthInstance, currentUser.email);
+          setModal({ message: `تم إرسال رابط إعادة تعيين كلمة المرور إلى ${currentUser.email}. يرجى التحقق من بريدك الوارد.`, type: 'success', onClose: () => setModal(null) });
+          setResetEmailSent(true); // Indicate that email has been sent
+          setVerificationCode(''); // Clear code field
+          setNewPassword(''); // Clear new password field
+          setConfirmNewPassword(''); // Clear confirm new password field
+        } catch (error) {
+          console.error("خطأ في إرسال بريد إعادة تعيين كلمة المرور:", error);
+          let errorMessage = 'فشل إرسال بريد إعادة تعيين كلمة المرور. يرجى المحاولة مرة أخرى.';
+          if (error.code === 'auth/user-not-found') {
+            errorMessage = 'لا يوجد حساب بهذا البريد الإلكتروني.';
+          }
+          setModal({ message: errorMessage, type: 'error', onClose: () => setModal(null) });
+        } finally {
+          setIsSendingResetEmail(false);
+        }
+      };
+
+      // Placeholder for verifying code and resetting password (UI only for now)
+      const handleVerifyCodeAndResetPassword = async () => {
+        // ملاحظة: في تطبيق Firebase حقيقي، تتضمن هذه العملية عادةً:
+        // 1. قيام المستخدم بالنقر على رابط في بريده الإلكتروني يحتوي على oobCode.
+        // 2. يقوم التطبيق بعد ذلك باستخدام `auth.verifyPasswordResetCode(oobCode)` للتحقق من الرمز.
+        // 3. ثم `auth.confirmPasswordReset(oobCode, newPassword)` لتعيين كلمة المرور الجديدة.
+        // نظرًا لأن المستخدم طلب إدخال "رمز" داخل التطبيق، سنقوم بمحاكاته لواجهة المستخدم.
+        // التنفيذ الفعلي للتحقق من هذا الرمز وإعادة تعيين كلمة المرور داخل التطبيق أكثر تعقيدًا
+        // ويتطلب عادةً Firebase Admin SDK أو Cloud Functions.
+        
+        if (!verificationCode || !newPassword || !confirmNewPassword) {
+          setModal({ message: 'الرجاء تعبئة جميع الحقول: رمز التحقق وكلمة المرور الجديدة وتأكيدها.', type: 'error', onClose: () => setModal(null) });
+          return;
+        }
+        if (newPassword !== confirmNewPassword) {
+          setModal({ message: 'كلمة المرور الجديدة وتأكيدها غير متطابقين.', type: 'error', onClose: () => setModal(null) });
+          return;
+        }
+        if (newPassword.length < 6) {
+          setModal({ message: 'يجب أن تكون كلمة المرور الجديدة 6 أحرف على الأقل.', type: 'error', onClose: () => setModal(null) });
+          return;
+        }
+
+        setIsVerifyingCode(true);
+        // محاكاة استدعاء API
+        setTimeout(() => {
+            setModal({ message: 'تم إرسال طلب إعادة تعيين كلمة المرور. يرجى التحقق من بريدك الإلكتروني لإكمال العملية.', type: 'success', onClose: () => setModal(null) });
+            setVerificationCode('');
+            setNewPassword('');
+            setConfirmNewPassword('');
+            setForgotPasswordMode(false); // الخروج من وضع "نسيت كلمة المرور"
+            setResetEmailSent(false); // إعادة تعيين حالة إرسال البريد الإلكتروني
+            setIsVerifyingCode(false);
+        }, 1500);
       };
 
       const handleSignOut = () => {
@@ -852,6 +979,12 @@
                 className={`tab-button ${activeTab === 'cart' ? 'active' : ''}`}
               >
                 السلة
+              </button>
+              <button
+                onClick={() => setActiveTab('security')}
+                className={`tab-button ${activeTab === 'security' ? 'active' : ''}`}
+              >
+                الأمان
               </button>
             </div>
 
@@ -966,12 +1099,12 @@
                 <h3 className="text-xl font-bold text-[#D4AF37] mb-4 text-center">عناصر السلة</h3>
                 {cartItems.length > 0 ? (
                   <div className="space-y-4">
-                    {cartItems.map(item => (
-                      <div key={item.id} className="bg-[#2C3E50] p-4 rounded-lg shadow-md flex items-center text-sm">
-                        <img src={item.imageUrl || `https://placehold.co/60x60/1F2E40/D4AF37?text=صورة`} alt={item.name} className="w-16 h-16 object-cover rounded-md ml-3 flex-shrink-0" />
+                    {cartItems.map((item, index) => ( // إضافة index كمفتاح احتياطي
+                      <div key={item.id || index} className="bg-[#2C3E50] p-4 rounded-lg shadow-md flex items-center text-sm">
+                        <img src={item.img || `https://placehold.co/60x60/1F2E40/D4AF37?text=صورة`} alt={item.name} className="w-16 h-16 object-cover rounded-md ml-3 flex-shrink-0" />
                         <div className="flex-grow">
                           <p className="font-semibold text-white">{item.name}</p>
-                          <p className="text-[#D4AF37]">{item.price}</p>
+                          <p className="text-[#D4AF37]">السعر: {item.displayPrice}</p> {/* استخدام displayPrice */}
                           <p className="text-gray-300">الكمية: {item.quantity}</p>
                         </div>
                       </div>
@@ -986,6 +1119,193 @@
                     الانتقال إلى السلة للتعديل
                   </a>
                 </div>
+              </div>
+            )}
+
+            {activeTab === 'security' && (
+              <div className="tab-content-section w-full max-w-xs mx-auto">
+                <h3 className="text-xl font-bold text-[#D4AF37] mb-4 text-center">تغيير كلمة المرور</h3>
+                {currentUser?.providerData && currentUser.providerData[0]?.providerId === 'password' ? (
+                    <>
+                        {!forgotPasswordMode ? (
+                            <>
+                                <div className="mb-4">
+                                    <label className="block text-base font-semibold text-white mb-1" htmlFor="old-password">
+                                        كلمة المرور القديمة:
+                                    </label>
+                                    <input
+                                        type="password"
+                                        id="old-password"
+                                        value={oldPassword}
+                                        onChange={(e) => setOldPassword(e.target.value)}
+                                        className="w-full"
+                                        placeholder="أدخل كلمة المرور القديمة"
+                                        required
+                                    />
+                                </div>
+                                <div className="mb-4">
+                                    <label className="block text-base font-semibold text-white mb-1" htmlFor="new-password">
+                                        كلمة المرور الجديدة:
+                                    </label>
+                                    <input
+                                        type="password"
+                                        id="new-password"
+                                        value={newPassword}
+                                        onChange={(e) => setNewPassword(e.target.value)}
+                                        className="w-full"
+                                        placeholder="أدخل كلمة المرور الجديدة"
+                                        required
+                                    />
+                                </div>
+                                <div className="mb-6">
+                                    <label className="block text-base font-semibold text-white mb-1" htmlFor="confirm-new-password">
+                                        تأكيد كلمة المرور الجديدة:
+                                    </label>
+                                    <input
+                                        type="password"
+                                        id="confirm-new-password"
+                                        value={confirmNewPassword}
+                                        onChange={(e) => setConfirmNewPassword(e.target.value)}
+                                        className="w-full"
+                                        placeholder="أعد إدخال كلمة المرور الجديدة"
+                                        required
+                                    />
+                                </div>
+                                <button
+                                    onClick={handleChangePassword}
+                                    className="btn-primary w-full text-base py-2.5 flex items-center justify-center space-x-1.5 space-x-reverse mb-4"
+                                    disabled={isPasswordChanging}
+                                >
+                                    {isPasswordChanging ? (
+                                    <>
+                                        <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        <span>جاري التغيير...</span>
+                                    </>
+                                    ) : (
+                                    <span>تغيير كلمة المرور</span>
+                                    )}
+                                </button>
+                                <button
+                                    onClick={() => { setForgotPasswordMode(true); setOldPassword(''); setConfirmNewPassword(''); }}
+                                    className="btn-secondary w-full text-base py-2.5"
+                                >
+                                    نسيت كلمة المرور؟
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <div className="mb-4">
+                                    <label className="block text-base font-semibold text-white mb-1" htmlFor="reset-email">
+                                        البريد الإلكتروني:
+                                    </label>
+                                    <input
+                                        type="email"
+                                        id="reset-email"
+                                        value={currentUser?.email || ''}
+                                        readOnly
+                                        className="w-full opacity-75 cursor-not-allowed"
+                                    />
+                                </div>
+                                <button
+                                    onClick={handleSendPasswordResetEmail}
+                                    className="btn-primary w-full text-base py-2.5 flex items-center justify-center space-x-1.5 space-x-reverse mb-4"
+                                    disabled={isSendingResetEmail || resetEmailSent}
+                                >
+                                    {isSendingResetEmail ? (
+                                    <>
+                                        <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        <span>جاري الإرسال...</span>
+                                    </>
+                                    ) : resetEmailSent ? (
+                                        <span>تم إرسال الرابط!</span>
+                                    ) : (
+                                        <span>إرسال رابط إعادة تعيين كلمة المرور</span>
+                                    )}
+                                </button>
+                                {resetEmailSent && (
+                                    <p className="text-xs text-gray-400 text-center mb-4">
+                                        تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني. يرجى التحقق من صندوق الوارد الخاص بك (وقسم الرسائل غير المرغوب فيها).
+                                    </p>
+                                )}
+                                <div className="mb-4">
+                                    <label className="block text-base font-semibold text-white mb-1" htmlFor="verification-code">
+                                        رمز التحقق (من البريد الإلكتروني):
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="verification-code"
+                                        value={verificationCode}
+                                        onChange={(e) => setVerificationCode(e.target.value)}
+                                        className="w-full"
+                                        placeholder="أدخل رمز التحقق"
+                                        required
+                                    />
+                                </div>
+                                <div className="mb-4">
+                                    <label className="block text-base font-semibold text-white mb-1" htmlFor="new-password-reset">
+                                        كلمة المرور الجديدة:
+                                    </label>
+                                    <input
+                                        type="password"
+                                        id="new-password-reset"
+                                        value={newPassword}
+                                        onChange={(e) => setNewPassword(e.target.value)}
+                                        className="w-full"
+                                        placeholder="أدخل كلمة المرور الجديدة"
+                                        required
+                                    />
+                                </div>
+                                <div className="mb-6">
+                                    <label className="block text-base font-semibold text-white mb-1" htmlFor="confirm-new-password-reset">
+                                        تأكيد كلمة المرور الجديدة:
+                                    </label>
+                                    <input
+                                        type="password"
+                                        id="confirm-new-password-reset"
+                                        value={confirmNewPassword}
+                                        onChange={(e) => setConfirmNewPassword(e.target.value)}
+                                        className="w-full"
+                                        placeholder="أعد إدخال كلمة المرور الجديدة"
+                                        required
+                                    />
+                                </div>
+                                <button
+                                    onClick={handleVerifyCodeAndResetPassword}
+                                    className="btn-primary w-full text-base py-2.5 flex items-center justify-center space-x-1.5 space-x-reverse mb-4"
+                                    disabled={isVerifyingCode}
+                                >
+                                    {isVerifyingCode ? (
+                                    <>
+                                        <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        <span>جاري التحقق...</span>
+                                    </>
+                                    ) : (
+                                    <span>إعادة تعيين كلمة المرور</span>
+                                    )}
+                                </button>
+                                <button
+                                    onClick={() => { setForgotPasswordMode(false); setResetEmailSent(false); setOldPassword(''); setNewPassword(''); setConfirmNewPassword(''); setVerificationCode(''); }}
+                                    className="btn-secondary w-full text-base py-2.5"
+                                >
+                                    العودة لتغيير كلمة المرور
+                                </button>
+                            </>
+                        )}
+                    </>
+                ) : (
+                    <p className="text-gray-400 text-center">
+                        لا يمكنك تغيير كلمة المرور هنا لأن حسابك لم يتم إنشاؤه ببريد إلكتروني وكلمة مرور (على سبيل المثال، تم تسجيل الدخول باستخدام حساب Google أو كضيف).
+                    </p>
+                )}
               </div>
             )}
           </main>
