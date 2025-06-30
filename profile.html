@@ -378,8 +378,17 @@
         font-size: 1rem; /* تكبير الخط للنص نفسه */
     }
     .tab-content-section.security-tab-content input {
+        background: #D4AF37; /* جعل الخلفية ذهبية */
+        color: #F8F8F8; /* جعل النص أبيض */
         padding: 18px; /* تكبير مربعات الإدخال */
         font-size: 1.2rem; /* تكبير الخط داخل مربعات الإدخال */
+    }
+    .tab-content-section.security-tab-content input::placeholder {
+        color: rgba(248, 248, 248, 0.7); /* لون نص العنصر النائب ليتناسب مع الخلفية الذهبية */
+    }
+    .tab-content-section.security-tab-content input:focus {
+        border-color: #F8F8F8; /* حدود بيضاء عند التركيز */
+        box-shadow: 0 0 0 1px #F8F8F8; /* حلقة تركيز بيضاء */
     }
     /* نمط جديد لحاوية حقل كلمة المرور مع زر العين */
     .password-input-container {
