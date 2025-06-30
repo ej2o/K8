@@ -322,11 +322,12 @@
         border-radius: 18px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
     }
+    /* تحديث: تكبير حقول الإدخال وجعل النص أسود */
     .profile-card input, .profile-card select {
-        background: #2C3E50; /* خلفية إدخال أغمق */
-        color: #F8F8F8; /* نص إدخال فاتح */
+        background: #F8F8F8; /* خلفية إدخال فاتحة */
+        color: #1A2C42; /* نص إدخال داكن (أسود تقريباً) */
         border: 1px solid #5A7D9D; /* حدود خفيفة */
-        padding: 10px;
+        padding: 14px; /* زيادة حجم الحقل */
         border-radius: 8px;
         font-size: 0.9rem;
     }
@@ -691,7 +692,7 @@
       const [loading, setLoading] = useState(true);
       const [modal, setModal] = useState(null);
       const [isUpdating, setIsUpdating] = useState(false);
-      const [activeTab, setActiveTab] = useState('profile'); // tabs: profile, cart, security
+      const [activeTab, setActiveTab] = useState('profile'); // tabs: profile, security
 
       // New states for password change/reset
       const [oldPassword, setOldPassword] = useState('');
@@ -804,7 +805,7 @@
         }
 
         if (!editedName.trim()) {
-            setModal({ message: 'الرجاء إدخال الاسم.', type: () => setModal(null) });
+            setModal({ message: 'الرجاء إدخال الاسم.', type: 'error', onClose: () => setModal(null) });
             return;
         }
 
@@ -974,12 +975,7 @@
               >
                 المعلومات الشخصية
               </button>
-              <button
-                onClick={() => setActiveTab('cart')}
-                className={`tab-button ${activeTab === 'cart' ? 'active' : ''}`}
-              >
-                السلة
-              </button>
+              {/* تم حذف زر السلة من هنا بناءً على طلبك */}
               <button
                 onClick={() => setActiveTab('security')}
                 className={`tab-button ${activeTab === 'security' ? 'active' : ''}`}
@@ -1125,6 +1121,7 @@
             {activeTab === 'security' && (
               <div className="tab-content-section w-full max-w-xs mx-auto">
                 <h3 className="text-xl font-bold text-[#D4AF37] mb-4 text-center">تغيير كلمة المرور</h3>
+                {/* التحقق مما إذا كان المستخدم قد سجل الدخول باستخدام بريد إلكتروني وكلمة مرور */}
                 {currentUser?.providerData && currentUser.providerData[0]?.providerId === 'password' ? (
                     <>
                         {!forgotPasswordMode ? (
