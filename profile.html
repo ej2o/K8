@@ -329,7 +329,7 @@
         border: 1px solid #5A7D9D; /* حدود خفيفة */
         padding: 16px; /* زيادة حجم الحقل بشكل أكبر */
         border-radius: 8px;
-        font-size: 0.9rem;
+        font-size: 1.1rem; /* تكبير حجم النص داخل الحقول */
     }
     .profile-card input::placeholder, .profile-card select::placeholder {
         color: #A0AEC0; /* نص عنصر نائب أفتح */
@@ -365,6 +365,30 @@
       padding: 20px;
       margin-top: 15px;
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+    }
+    /* نمط جديد لحاوية حقل كلمة المرور مع زر العين */
+    .password-input-container {
+        position: relative;
+    }
+    .password-toggle-button {
+        position: absolute;
+        left: 10px; /* المسافة من اليسار (لأن الاتجاه RTL) */
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #5A7D9D; /* لون أيقونة العين */
+        padding: 5px;
+        border-radius: 50%;
+        transition: color 0.2s ease;
+    }
+    .password-toggle-button:hover {
+        color: #D4AF37; /* لون ذهبي عند التحويم */
+    }
+    .password-toggle-button svg {
+        width: 20px;
+        height: 20px;
     }
   </style>
 </head>
@@ -704,6 +728,14 @@
       const [isPasswordChanging, setIsPasswordChanging] = useState(false);
       const [isSendingResetEmail, setIsSendingResetEmail] = useState(false);
       const [isVerifyingCode, setIsVerifyingCode] = useState(false);
+
+      // States for password visibility
+      const [showOldPassword, setShowOldPassword] = useState(false);
+      const [showNewPassword, setShowNewPassword] = useState(false);
+      const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
+      const [showResetNewPassword, setShowResetNewPassword] = useState(false);
+      const [showResetConfirmNewPassword, setShowResetConfirmNewPassword] = useState(false);
+
 
       const [cartItems, setCartItems] = useState([]); // لحفظ عناصر السلة
 
@@ -1097,12 +1129,12 @@
                     <>
                         {!forgotPasswordMode ? (
                             <>
-                                <div className="mb-4">
+                                <div className="mb-4 password-input-container">
                                     <label className="block text-base font-semibold text-white mb-1" htmlFor="old-password">
                                         كلمة المرور القديمة:
                                     </label>
                                     <input
-                                        type="password"
+                                        type={showOldPassword ? "text" : "password"}
                                         id="old-password"
                                         value={oldPassword}
                                         onChange={(e) => setOldPassword(e.target.value)}
@@ -1110,13 +1142,24 @@
                                         placeholder="أدخل كلمة المرور القديمة"
                                         required
                                     />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowOldPassword(prev => !prev)}
+                                        className="password-toggle-button"
+                                    >
+                                        {showOldPassword ? (
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.54 18.54 0 0 1 2.21-3.02M5.07 5.07A10.91 10.91 0 0 1 8 4c7 0 11 8 11 8a18.54 18.54 0 0 1-2.21 3.02M9.36 10.64a3 3 0 1 0 4.24 4.24M1 1l22 22"/></svg>
+                                        ) : (
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                        )}
+                                    </button>
                                 </div>
-                                <div className="mb-4">
+                                <div className="mb-4 password-input-container">
                                     <label className="block text-base font-semibold text-white mb-1" htmlFor="new-password">
                                         كلمة المرور الجديدة:
                                     </label>
                                     <input
-                                        type="password"
+                                        type={showNewPassword ? "text" : "password"}
                                         id="new-password"
                                         value={newPassword}
                                         onChange={(e) => setNewPassword(e.target.value)}
@@ -1124,13 +1167,24 @@
                                         placeholder="أدخل كلمة المرور الجديدة"
                                         required
                                     />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowNewPassword(prev => !prev)}
+                                        className="password-toggle-button"
+                                    >
+                                        {showNewPassword ? (
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.54 18.54 0 0 1 2.21-3.02M5.07 5.07A10.91 10.91 0 0 1 8 4c7 0 11 8 11 8a18.54 18.54 0 0 1-2.21 3.02M9.36 10.64a3 3 0 1 0 4.24 4.24M1 1l22 22"/></svg>
+                                        ) : (
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                        )}
+                                    </button>
                                 </div>
-                                <div className="mb-6">
+                                <div className="mb-6 password-input-container">
                                     <label className="block text-base font-semibold text-white mb-1" htmlFor="confirm-new-password">
                                         تأكيد كلمة المرور الجديدة:
                                     </label>
                                     <input
-                                        type="password"
+                                        type={showConfirmNewPassword ? "text" : "password"}
                                         id="confirm-new-password"
                                         value={confirmNewPassword}
                                         onChange={(e) => setConfirmNewPassword(e.target.value)}
@@ -1138,6 +1192,17 @@
                                         placeholder="أعد إدخال كلمة المرور الجديدة"
                                         required
                                     />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowConfirmNewPassword(prev => !prev)}
+                                        className="password-toggle-button"
+                                    >
+                                        {showConfirmNewPassword ? (
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.54 18.54 0 0 1 2.21-3.02M5.07 5.07A10.91 10.91 0 0 1 8 4c7 0 11 8 11 8a18.54 18.54 0 0 1-2.21 3.02M9.36 10.64a3 3 0 1 0 4.24 4.24M1 1l22 22"/></svg>
+                                        ) : (
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                        )}
+                                    </button>
                                 </div>
                                 <button
                                     onClick={handleChangePassword}
@@ -1215,12 +1280,12 @@
                                         required
                                     />
                                 </div>
-                                <div className="mb-4">
+                                <div className="mb-4 password-input-container">
                                     <label className="block text-base font-semibold text-white mb-1" htmlFor="new-password-reset">
                                         كلمة المرور الجديدة:
                                     </label>
                                     <input
-                                        type="password"
+                                        type={showResetNewPassword ? "text" : "password"}
                                         id="new-password-reset"
                                         value={newPassword}
                                         onChange={(e) => setNewPassword(e.target.value)}
@@ -1228,13 +1293,24 @@
                                         placeholder="أدخل كلمة المرور الجديدة"
                                         required
                                     />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowResetNewPassword(prev => !prev)}
+                                        className="password-toggle-button"
+                                    >
+                                        {showResetNewPassword ? (
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.54 18.54 0 0 1 2.21-3.02M5.07 5.07A10.91 10.91 0 0 1 8 4c7 0 11 8 11 8a18.54 18.54 0 0 1-2.21 3.02M9.36 10.64a3 3 0 1 0 4.24 4.24M1 1l22 22"/></svg>
+                                        ) : (
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                        )}
+                                    </button>
                                 </div>
-                                <div className="mb-6">
+                                <div className="mb-6 password-input-container">
                                     <label className="block text-base font-semibold text-white mb-1" htmlFor="confirm-new-password-reset">
                                         تأكيد كلمة المرور الجديدة:
                                     </label>
                                     <input
-                                        type="password"
+                                        type={showResetConfirmNewPassword ? "text" : "password"}
                                         id="confirm-new-password-reset"
                                         value={confirmNewPassword}
                                         onChange={(e) => setConfirmNewPassword(e.target.value)}
@@ -1242,6 +1318,17 @@
                                         placeholder="أعد إدخال كلمة المرور الجديدة"
                                         required
                                     />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowResetConfirmNewPassword(prev => !prev)}
+                                        className="password-toggle-button"
+                                    >
+                                        {showResetConfirmNewPassword ? (
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.54 18.54 0 0 1 2.21-3.02M5.07 5.07A10.91 10.91 0 0 1 8 4c7 0 11 8 11 8a18.54 18.54 0 0 1-2.21 3.02M9.36 10.64a3 3 0 1 0 4.24 4.24M1 1l22 22"/></svg>
+                                        ) : (
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                        )}
+                                    </button>
                                 </div>
                                 <button
                                     onClick={handleVerifyCodeAndResetPassword}
