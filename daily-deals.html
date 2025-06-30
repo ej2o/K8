@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>عروض اليوم – ميركاتو | تسوق بذكاء، عش أفضل</title>
-  <!-- favicon -->
+  <title>العروض اليومية – ميركاتو | تسوق بذكاء، عش أفضل</title>
+  <!-- Favicon -->
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
 
   <!-- Google Tag Manager -->
@@ -23,11 +23,11 @@
 
   <!-- Custom Styles for Mercato Theme and Layout -->
   <style>
-    /* لوحة الألوان الفاخرة الجديدة (الوضع الليلي الدائم): */
-    /* Primary Dark: #1A2C42 (كحلي عميق / أزرق داكن) */
-    /* Accent Gold: #D4AF37 (ذهبي / برونزي) */
-    /* Light Background (used as text color now): #F8F8F8 (رمادي فاتح جداً / كريمي) */
-    /* Secondary Accent: #5A7D9D (أزرق باهت / تيل) */
+    /* New Luxury Color Palette (Permanent Night Mode): */
+    /* Primary Dark: #1A2C42 (Deep Navy / Dark Blue) */
+    /* Accent Gold: #D4AF37 (Gold / Bronze) */
+    /* Light Background (used as text color now): #F8F8F8 (Very Light Gray / Cream) */
+    /* Secondary Accent: #5A7D9D (Pale Blue / Teal) */
     /* Background Darkest: #0F1A2A */
     /* Header Background Darker: #0B141F */
     /* Card Background Dark: #1F2E40 */
@@ -48,7 +48,7 @@
       overflow: hidden; /* Prevent body scroll, let inner content scroll */
     }
 
-    /* أحجام الخطوط في Tailwind - للحفاظ على أحجام النصوص جيدة */
+    /* Tailwind font sizes - للحفاظ على أحجام النصوص جيدة */
     .text-xs { font-size: 0.7rem; }
     .text-sm { font-size: 0.8rem; }
     .text-base { font-size: 0.9rem; }
@@ -168,7 +168,7 @@
 
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* أنماط الهيكل العظمي (Skeleton Loader) */
@@ -223,8 +223,8 @@
     .text-gray-500 { color: #9CA3AF; }
     .text-gray-400 { color: #9CA3AF; }
 
-    /* أنماط خاصة بعروض اليوم (ProductCard) */
-    .product-card-daily-deals {
+    /* أنماط خاصة ببطاقة المنتج (ProductCard) */
+    .product-card {
       background-color: #1F2E40; /* لون خلفية داكن للمربعات */
       color: #F8F8F8; /* نص فاتح */
       border-radius: 0.9rem; /* 1.5rem * 0.6 = 0.9rem */
@@ -232,14 +232,14 @@
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       border: 1px solid #2C3E50; /* حد داكن خفيف */
     }
-    .product-card-daily-deals:hover {
+    .product-card:hover {
       transform: translateY(-5px); /* 8px * 0.6 = 4.8px -> 5px */
       box-shadow: 0 10.8px 27px rgba(0, 0, 0, 0.4), 0 4.8px 12px rgba(0, 0, 0, 0.3); /* 18*0.6=10.8; 45*0.6=27; 8*0.6=4.8; 20*0.6=12 */
     }
-    .product-card-daily-deals .product-image {
+    .product-card .product-image {
         height: 180px; /* استخدم قيمة أكبر لتبدو أفضل 180px */
     }
-    .product-card-daily-deals .badge {
+    .product-card .badge {
         top: 9px; /* 5 * 0.6 = 3; rounded-full */
         right: 9px; /* 5 * 0.6 = 3; rounded-full */
         font-size: 0.7rem; /* 0.7rem */
@@ -247,18 +247,18 @@
         border-radius: 9999px;
         box-shadow: 0 3.6px 9px rgba(0, 0, 0, 0.2); /* 6*0.6=3.6; 15*0.6=9 */
     }
-    .product-card-daily-deals .product-name {
+    .product-card .product-name {
         font-size: 0.9rem; /* 2xl -> base -> 0.9rem */
         margin-bottom: 5.4px; /* 3*0.6=1.8 -> mb-1.5 */
     }
-    .product-card-daily-deals .product-price {
+    .product-card .product-price {
         font-size: 1.05rem; /* 3xl -> lg -> 1.05rem */
         margin-bottom: 9px; /* 5*0.6=3 -> mb-2 */
     }
-    .product-card-daily-deals .product-price span {
+    .product-card .product-price span {
         font-size: 0.8rem; /* xl -> sm -> 0.8rem */
     }
-    .product-card-daily-deals .btn-primary {
+    .product-card .btn-primary {
         padding: 0.3rem 1rem; /* 0.8*0.6 = 0.48 -> 0.3; 2.5*0.6 = 1.5 -> 1rem */
         font-size: 0.7rem; /* 0.7rem */
     }
@@ -361,14 +361,14 @@
   <!-- End Google Tag Manager (noscript) -->
 
   <div id="root" class="flex flex-col min-h-screen">
-    <!-- شاشة التحميل الأولية (تختفي عندما يتم تحميل التطبيق) -->
+    <!-- Initial Loading Screen (hidden when app is loaded) -->
     <div id="initial-loading" class="flex flex-col items-center justify-center min-h-screen">
         <div class="loading-spinner"></div>
         <p class="text-xl text-gray-300 mt-2">جاري التحقق من تسجيل الدخول...</p>
     </div>
   </div>
 
-  <!-- مكتبات React الأساسية -->
+  <!-- React core libraries -->
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -379,24 +379,28 @@
     import { getAuth, onAuthStateChanged, signOut, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
     import { getFirestore, doc, getDoc, collection, query, where, getDocs, serverTimestamp, addDoc, updateDoc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    // Firebase config from your previous code
-    const firebaseConfig = {
-      apiKey: "AIzaSyCuttEadee0V2YOZHmG53a2Rck7AvFCFEM",
-      authDomain: "mercato-2cf1d.firebaseapp.com",
-      projectId: "mercato-2cf1d",
-      storageBucket: "mercato-2cf1d.firebasestorage.app",
-      messagingSenderId: "896887505927",
-      appId: "1:896887505927:web:6cb474409bdcfdb1e216a2",
-      measurementId: "G-4WNGK0W077"
+    // IMPORTANT: Use __firebase_config and __app_id provided by the Canvas environment
+    const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+      // Default placeholder config if not provided, for local development fallback
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID",
+      measurementId: "YOUR_MEASUREMENT_ID"
     };
 
-    window.mercatoAppId = firebaseConfig.projectId; 
+    // Set a global variable for the app ID, essential for Firestore paths
+    window.mercatoAppId = typeof __app_id !== 'undefined' ? __app_id : firebaseConfig.projectId; 
 
+    // Initialize Firebase application
     const app = initializeApp(firebaseConfig);
+    // Get Firebase Auth and Firestore instances
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Make Firebase instances globally available
+    // Make Firebase instances globally accessible for React components
     window.firebaseApp = app;
     window.firebaseAuth = auth;
     window.firebaseFirestore = {
@@ -416,70 +420,54 @@
     };
     window.firebaseAuthInstance = auth; 
 
-    // This flag ensures the React app is only rendered once.
-    let reactAppRendered = false;
-
-    // Function to initialize authentication and render the React app
-    async function initializeAuthAndRenderApp() {
+    // Function to handle Firebase authentication initialization
+    async function initializeAuthForCanvas() {
       try {
         if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+          // Sign in with custom token if available (provided by Canvas)
           await signInWithCustomToken(auth, __initial_auth_token);
           console.log("Firebase: Signed in with custom token.");
         } else {
+          // Otherwise, sign in anonymously
           await signInAnonymously(auth);
           console.log("Firebase: Signed in anonymously.");
         }
       } catch (error) {
         console.error("Firebase Auth Error during initialization:", error);
       }
-
-      // Listen for auth state changes and render the app
-      onAuthStateChanged(auth, (user) => { 
-        if (!reactAppRendered) { // Only render if not already rendered
-          const initialLoadingScreen = document.getElementById('initial-loading');
-          if (initialLoadingScreen) {
-            initialLoadingScreen.style.display = 'none'; // Hide loading screen
-          }
-
-          if (!user) {
-            console.log("Firebase Auth State Changed. No user logged in. Redirecting to login.html...");
-            window.location.href = 'login.html'; // Redirect if no user
-          } else {
-            console.log("Firebase Auth State Changed. User UID:", user.uid);
-            // Ensure renderApp is defined before calling it
-            if (window.renderApp) {
-              ReactDOM.render(<App currentUser={user} />, document.getElementById('root'));
-              reactAppRendered = true; // Set flag to true after rendering
-            } else {
-              console.error("Window.renderApp is not defined. React app might not be loaded yet.");
-              // Fallback: If renderApp is not ready, re-check after a short delay
-              // This is a safety net but ideally, script loading order handles this.
-              setTimeout(() => {
-                if (window.renderApp && !reactAppRendered) {
-                  ReactDOM.render(<App currentUser={user} />, document.getElementById('root'));
-                  reactAppRendered = true;
-                }
-              }, 100); 
-            }
-          }
-        }
-      });
     }
+    initializeAuthForCanvas(); // Call auth initialization
 
-    // Call the combined initialization and render function once the DOM is fully loaded.
-    // This ensures that all HTML elements are available before React tries to attach to #root.
-    document.addEventListener('DOMContentLoaded', () => {
-      initializeAuthAndRenderApp();
+    // Listen for authentication state changes
+    onAuthStateChanged(auth, async (user) => { 
+      const initialLoadingScreen = document.getElementById('initial-loading');
+      if (initialLoadingScreen) {
+        initialLoadingScreen.style.display = 'none'; // Hide loading screen once auth state is checked
+      }
+
+      if (!user) {
+        console.log("daily-deals: No user logged in. Redirecting to login.html...");
+        window.location.href = 'login.html'; // Redirect to login if no user
+      } else {
+        console.log("daily-deals: User UID:", user.uid);
+        // If user is logged in, render the React app
+        if (window.renderApp) {
+          window.renderApp(user); 
+        } else {
+          console.error("Window.renderApp is not defined. React app might not be loaded yet.");
+        }
+      }
     });
 
-    // Make handleSignOut globally available
+    // Global function to handle user sign out
     window.handleSignOut = async () => {
       try {
         await signOut(window.firebaseAuthInstance);
         console.log("daily-deals: User signed out. Redirecting to login.html...");
-        window.location.href = 'login.html';
+        window.location.href = 'login.html'; // Redirect after sign out
       } catch (error) {
         console.error("daily-deals: Sign Out Error: ", error);
+        // Display a custom modal for sign out errors
         const modal = document.createElement('div');
         modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[1000]';
         modal.innerHTML = `
@@ -500,7 +488,7 @@
     const useEffect = React.useEffect;
     const useCallback = React.useCallback;
 
-    // Custom Modal Component for displaying messages
+    // Custom Modal Component for displaying messages (replaces alert/confirm)
     const CustomModal = ({ title, message, type, onClose }) => {
       const isSuccess = type === 'success';
       const bgColorClass = isSuccess ? 'bg-green-600' : 'bg-red-600';
@@ -510,12 +498,14 @@
       const [showModal, setShowModal] = useState(false);
 
       useEffect(() => {
+        // Delay showing modal for smooth animation
         const timer = setTimeout(() => setShowModal(true), 50); 
         return () => clearTimeout(timer);
       }, []);
 
       const handleClose = () => {
         setShowModal(false);
+        // Delay calling onClose to allow exit animation
         setTimeout(onClose, 300); 
       };
 
@@ -538,23 +528,25 @@
     };
 
     // Global function to render the React app after authentication
-    // This is now called by the Firebase script after auth state is determined
     window.renderApp = (user) => {
       const initialLoadingScreen = document.getElementById('initial-loading');
       if (initialLoadingScreen) {
-        initialLoadingScreen.style.display = 'none';
+        initialLoadingScreen.style.display = 'none'; // Hide initial loading screen
       }
       ReactDOM.render(<App currentUser={user} />, document.getElementById('root'));
     };
 
-    // --- مكون الرأس (Header Component) ---
+    // --- Header Component ---
+    // Displays site logo, navigation links, cart icon with count, and user profile/login buttons.
     const Header = ({ currentUser, pageTitle }) => {
         const [cartItemCount, setCartItemCount] = useState(0);
 
+        // Effect to listen for real-time cart item count updates from Firestore
         useEffect(() => {
             let unsubscribeCart = () => {};
             if (currentUser && currentUser.uid && window.firebaseFirestore && window.firebaseFirestore.onSnapshot) {
                 const dbInstance = window.firebaseFirestore.getFirestore();
+                // Define the path to the user's cart items collection
                 const userCartCollectionRef = window.firebaseFirestore.collection(
                     dbInstance,
                     'artifacts',
@@ -565,11 +557,12 @@
                 );
                 console.log("Header: Listening to cart changes at:", userCartCollectionRef.path);
 
+                // Set up real-time listener
                 unsubscribeCart = window.firebaseFirestore.onSnapshot(userCartCollectionRef, (snapshot) => {
                     let totalCount = 0;
                     snapshot.forEach(doc => {
                         const itemData = doc.data();
-                        totalCount += itemData.quantity || 0;
+                        totalCount += itemData.quantity || 0; // Sum quantities of all items
                     });
                     setCartItemCount(totalCount);
                     console.log("Header: Cart items updated. Total:", totalCount);
@@ -577,28 +570,30 @@
                     console.error("Header: Error fetching cart items:", error);
                 });
             } else {
-                setCartItemCount(0);
+                setCartItemCount(0); // Reset cart count if no user or Firebase not ready
                 console.log("Header: Not listening to cart (no user or Firebase not ready).");
             }
 
+            // Cleanup function for the effect: unsubscribe when component unmounts or dependencies change
             return () => unsubscribeCart();
-        }, [currentUser]);
+        }, [currentUser]); // Re-run effect if currentUser changes
 
       const handleGoBack = () => {
-        history.back();
+        history.back(); // Go back in browser history
       };
 
       return (
         <header className="header-bg text-white p-1.5 shadow-sm rounded-b-md z-50">
           <div className="container mx-auto flex flex-wrap items-center justify-between py-1">
             <div className="flex items-center space-x-1.5 space-x-reverse">
+              {/* Mercato Logo and Text */}
               <img
                 src="https://i.postimg.cc/8CpKtfQw/file-0000000018d862468d05a4f4346102fe-1.png"
                 alt="ميركاتو"
                 className="w-auto h-8 object-contain rounded-sm shadow-xs border border-[#D4AF37]"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = 'https://placehold.co/32x16/1A2C42/D4AF37?text=ميركاتو';
+                  e.target.src = 'https://placehold.co/32x16/1A2C42/D4AF37?text=ميركاتو'; // Placeholder if image fails
                 }}
               />
               <div className="flex flex-col">
@@ -611,6 +606,7 @@
               </div>
             </div>
 
+            {/* Main Navigation Links */}
             <nav className="flex items-center space-x-2 space-x-reverse text-xs font-semibold flex-grow justify-center">
               <a href="index.html" className="hover:text-[#D4AF37] transition-colors p-0.5 rounded-xs hover:bg-white hover:bg-opacity-10">
                 الرئيسية
@@ -629,9 +625,11 @@
               </a>
             </nav>
 
+            {/* User Actions: Cart, Profile, Back / Login, Signup */}
             <div className="flex items-center space-x-1.5 space-x-reverse">
-              {currentUser && currentUser.uid ? (
+              {currentUser && currentUser.uid ? ( // If user is logged in
                 <>
+                  {/* Cart Icon with Item Count */}
                   <a href="cart.html"
                     className="relative p-1.5 rounded-full bg-[#5A7D9D] hover:bg-[#D4AF37] hover:text-[#1A2C42] transition-colors flex items-center justify-center text-white focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
                     aria-label="السلة"
@@ -645,6 +643,7 @@
                     )}
                   </a>
 
+                  {/* Profile Link */}
                   <a href="profile.html" className="flex items-center text-white font-bold py-1 px-2 rounded-full bg-[#5A7D9D] hover:bg-[#D4AF37] hover:text-[#1A2C42] transition-colors duration-300 shadow-xs text-xs">
                     <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-user-circle mr-0.5">
                       <circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/>
@@ -652,6 +651,7 @@
                     الملف الشخصي
                   </a>
 
+                  {/* Go Back Button */}
                   <button
                     onClick={handleGoBack}
                     className="p-1.5 rounded-full hover:bg-white hover:bg-opacity-10 transition-colors flex items-center justify-center text-[#D4AF37] focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
@@ -660,7 +660,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-right-from-line transform rotate-180"><path d="M3 5V19"/><path d="M17 12H3"/><path d="m14 5 3 7-3 7"/></svg>
                   </button>
                 </>
-              ) : (
+              ) : ( // If user is not logged in
                 <div className="flex space-x-1.5 space-x-reverse">
                   <a href="login.html" className="btn-secondary">
                     تسجيل الدخول
@@ -676,12 +676,13 @@
       );
     };
 
-    // --- مكون بطاقة المنتج (Product Card Component) ---
+    // --- Product Card Component ---
+    // Displays a single product with its image, name, price, and add-to-cart/buy buttons.
     const ProductCard = ({ product, onAddToCart }) => {
       const { id, name, displayPrice, img, link } = product;
 
       return (
-        <article className="product-card-daily-deals rounded-lg shadow-md overflow-hidden flex flex-col group">
+        <article className="product-card rounded-lg shadow-md overflow-hidden flex flex-col group">
           <div className="relative overflow-hidden w-full product-image">
             <img
               src={img}
@@ -689,11 +690,11 @@
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-in-out"
               onError={(e) => {
                 e.target.onerror = null;
-                e.target.src = 'https://placehold.co/120x180/1F2E40/F8F8F8?text=صورة+غير+موجودة'; // أبعاد مُعدلة
+                e.target.src = 'https://placehold.co/120x180/1F2E40/F8F8F8?text=صورة+غير+موجودة'; // Placeholder for missing image
               }}
             />
-            {/* شارة ديناميكية بتصميم فاخر */}
-            {product.is_daily_deal && ( // Only show badge if it's a daily deal
+            {/* Dynamic badge for special offers (appears randomly) */}
+            {Math.random() > 0.7 && (
               <span className="absolute badge bg-[#D4AF37] text-[#1A2C42] font-bold px-2 py-1 rounded-full shadow-xs">
                 عرض خاص!
               </span>
@@ -717,7 +718,7 @@
                     target="_blank"
                     rel="noopener noreferrer"
                 >
-                    اشتري {/* Changed from "شاهد المنتج الأصلي" to "اشتري" */}
+                    اشتري
                 </a>
             </div>
           </div>
@@ -725,7 +726,8 @@
       );
     };
 
-    // --- مكون الهيكل العظمي (Skeleton Card Component) ---
+    // --- Skeleton Card Component ---
+    // Used as a loading placeholder while product data is being fetched.
     const SkeletonCard = () => (
       <div className="skeleton-card">
         <div className="skeleton-card-image"></div>
@@ -737,8 +739,9 @@
       </div>
     );
 
-    // --- مكون شبكة عرض المنتجات (Product Display Grid Component) ---
-    const ProductDisplayGrid = ({ categoryCode, userCountry, searchTerm = '', sortBy = 'none', sortOrder = 'asc', onAddToCart }) => {
+    // --- Product Display Grid Component ---
+    // Fetches and displays products from Firestore based on category, country, search, and sort criteria.
+    const ProductDisplayGrid = ({ categoryCode, userCountry, searchTerm = '', sortBy = 'none', sortOrder = 'asc', onAddToCart }) => { 
       const [products, setProducts] = useState([]);
       const [loading, setLoading] = useState(true);
       const [error, setError] = useState(null);
@@ -747,7 +750,7 @@
         const fetchProducts = async () => {
           setLoading(true);
           setError(null);
-
+          
           console.log("ProductDisplayGrid: Starting product fetch for category:", categoryCode, "and country:", userCountry);
           console.log("ProductDisplayGrid: Using App ID:", window.mercatoAppId); 
 
@@ -759,12 +762,17 @@
           }
 
           const dbInstance = window.firebaseFirestore.getFirestore();
+          // Reference to the 'products' collection under 'public' data
           let productsRef = window.firebaseFirestore.collection(dbInstance, 'artifacts', window.mercatoAppId, 'public', 'data', 'products');
           let productsQuery = productsRef;
           
           console.log("ProductDisplayGrid: Base products collection path:", productsRef.path);
 
-          // Filtering by available countries
+          // Apply category filter
+          productsQuery = window.firebaseFirestore.query(productsQuery, window.firebaseFirestore.where('category', '==', categoryCode));
+          console.log("ProductDisplayGrid: Applied category filter: category == ", categoryCode);
+          
+          // Apply country filter
           if (userCountry && userCountry !== 'اختر الدولة' && userCountry !== 'لم يتم الاختيار' && userCountry !== '') {
             productsQuery = window.firebaseFirestore.query(productsQuery, window.firebaseFirestore.where('availableCountries', 'array-contains', userCountry));
             console.log("ProductDisplayGrid: Applied country filter: availableCountries array-contains ", userCountry);
@@ -776,37 +784,13 @@
              return; 
           }
 
-          // Apply category filter for 'daily-deals' AND also filter by 'is_daily_deal'
-          // This is the key modification for this page.
-          if (categoryCode === 'daily-deals') {
-            productsQuery = window.firebaseFirestore.query(
-                productsQuery,
-                window.firebaseFirestore.where('category', '==', categoryCode),
-                window.firebaseFirestore.where('is_daily_deal', '==', true) 
-            );
-            console.log("ProductDisplayGrid: Applied daily deals filter: category == daily-deals AND is_daily_deal == true");
-          } else {
-            // For other categories (if this component were reused), you'd only filter by category
-            productsQuery = window.firebaseFirestore.query(productsQuery, window.firebaseFirestore.where('category', '==', categoryCode));
-            console.log("ProductDisplayGrid: Applied general category filter: category == ", categoryCode);
-          }
-
           try {
             console.log("ProductDisplayGrid: Attempting to get documents with query...");
             const querySnapshot = await window.firebaseFirestore.getDocs(productsQuery);
             let fetchedProducts = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            console.log("ProductDisplayGrid: Fetched", fetchedProducts.length, "products before client-side filters/sorting and expiry filter.");
+            console.log("ProductDisplayGrid: Fetched", fetchedProducts.length, "products before client-side filters/sorting.");
 
-            const now = new Date();
-            // Client-side expiry filtering: Filter out products where expires_at is in the past
-            fetchedProducts = fetchedProducts.filter(product => {
-                const expiresAt = product.expires_at ? product.expires_at.toDate() : null; // Convert Firebase Timestamp to JS Date
-                return !expiresAt || expiresAt > now; // Keep if no expiry date or if expiry date is in the future
-            });
-            console.log("ProductDisplayGrid: Products after expiry filter:", fetchedProducts.length);
-
-
-            // Client-side search filtering
+            // Client-side search filter
             if (searchTerm) {
               fetchedProducts = fetchedProducts.filter(product =>
                 product.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -822,6 +806,7 @@
                 if (sortBy === 'price') {
                     return sortOrder === 'asc' ? priceA - priceB : priceB - priceA;
                 } else if (sortBy === 'name') {
+                    // Use 'ar' locale for Arabic string comparison
                     return sortOrder === 'asc' ? String(a.name).localeCompare(String(b.name), 'ar') : String(b.name).localeCompare(String(a.name), 'ar');
                 }
                 return 0;
@@ -839,6 +824,7 @@
           }
         };
 
+        // Only fetch products if a user country is selected
         if (userCountry) {
             fetchProducts();
         } else {
@@ -847,12 +833,13 @@
             setProducts([]);
             console.log("ProductDisplayGrid: userCountry is null/empty. Not fetching products.");
         }
-      }, [categoryCode, userCountry, searchTerm, sortBy, sortOrder]);
+      }, [categoryCode, userCountry, searchTerm, sortBy, sortOrder]); // Re-fetch when these dependencies change
 
 
       if (loading) {
         return (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3.5">
+            {/* Display 8 skeleton cards while loading */}
             {Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)}
           </div>
         );
@@ -872,7 +859,7 @@
       
       if (products.length === 0) { 
         return (
-          <div className="text-center p-3.5 bg-gray-50 border border-gray-300 text-gray-700 rounded-md shadow-sm my 3.5 mx-auto max-w-xs flex flex-col items-center">
+          <div className="text-center p-3.5 bg-gray-50 border border-gray-300 text-gray-700 rounded-md shadow-sm my-3.5 mx-auto max-w-xs flex flex-col items-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-package-x text-gray-500 mb-1.5"><path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v6a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 14z"/><path d="m3 7 9 5 9-5"/><path d="m3 14 9 5 9-5"/><path d="m8 8 8 8"/><path d="m16 8-8 8"/></svg>
             <p className="text-base font-bold mb-1.5">لا توجد منتجات حاليًا في هذا القسم أو لهذه الدولة!</p>
             <p className="text-xs leading-relaxed">
@@ -891,12 +878,13 @@
       );
     };
 
-    // --- مكون زر العودة للأعلى (Scroll to Top Button Component) ---
+    // --- Scroll to Top Button Component ---
+    // Provides a button that appears on scroll and smoothly scrolls the user back to the top.
     const ScrollToTopButton = () => {
       const [isVisible, setIsVisible] = useState(false);
 
       const toggleVisibility = () => {
-        // Check scroll position of the main scrollable container, not window
+        // Check scroll position of the main scrollable container
         const mainContent = document.querySelector('.main-scroll-content');
         if (mainContent && mainContent.scrollTop > 300) {
           setIsVisible(true);
@@ -915,6 +903,7 @@
         }
       };
 
+      // Add/remove scroll event listener
       useEffect(() => {
         const mainContent = document.querySelector('.main-scroll-content');
         if (mainContent) {
@@ -934,19 +923,18 @@
       );
     };
 
-    // --- مكون تذييل الصفحة (Footer Component) ---
+    // --- Footer Component ---
+    // Displays contact info, quick links, and social media icons.
     const Footer = () => {
       return (
         <footer className="bg-[#0B141F] text-white py-6 px-1.5 mt-10 rounded-t-md shadow-inner-dark z-30">
           <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-2.5 text-center md:text-right">
-            {/* معلومات الاتصال */}
             <div className="animate-fade-in-up">
               <h3 className="text-base font-bold mb-1.5 text-[#D4AF37]">تواصل معنا</h3>
               <p className="text-xs mb-1 text-gray-400">البريد الإلكتروني: info@mercato.com</p>
               <p className="text-xs text-gray-400">الهاتف: +966 50 123 4567</p>
             </div>
 
-            {/* روابط سريعة */}
             <div className="animate-fade-in-up animation-delay-200">
               <h3 className="text-base font-bold mb-1.5 text-[#D4AF37]">روابط سريعة</h3>
               <ul className="space-y-0.75">
@@ -978,10 +966,10 @@
               </ul>
             </div>
 
-            {/* تابعنا */}
             <div className="animate-fade-in-up animation-delay-400">
               <h3 className="text-base font-bold mb-1.5 text-[#D4AF37]">تابعنا</h3>
               <div className="flex justify-center md:justify-end space-x-2.5 space-x-reverse">
+                {/* Social media icons */}
                 <a
                   href="https://www.tiktok.com/@mercato.0"
                   target="_blank"
@@ -1011,16 +999,16 @@
                 </a>
               </div>
             </div>
-            <div className="border-t border-gray-600 mt-3.5 pt-3.5 text-center text-gray-500 text-xs">
-              <p>&copy; 2025 ميركاتو. جميع الحقوق محفوظة.</p>
-              <p className="mt-1">مصمم بحب لتقديم أفضل تجربة تسوق.</p>
-            </div>
-          </footer>
-        </div>
+          </div>
+          <div className="border-t border-gray-600 mt-3.5 pt-3.5 text-center text-gray-500 text-xs">
+            <p>&copy; 2025 ميركاتو. جميع الحقوق محفوظة.</p>
+            <p className="mt-1">مصمم بحب لتقديم أفضل تجربة تسوق.</p>
+          </div>
+        </footer>
       );
     };
 
-    // --- مكون التطبيق الرئيسي لصفحة عروض اليوم (App) ---
+    // --- Main App Component for Daily Deals Page ---
     const App = ({ currentUser }) => {
       const [currentSearchTerm, setCurrentSearchTerm] = useState('');
       const [sortBy, setSortBy] = useState('none');
@@ -1035,6 +1023,7 @@
         let unsubscribeProfile = () => {};
         if (currentUser && currentUser.uid && window.firebaseFirestore) {
           const dbInstance = window.firebaseFirestore.getFirestore();
+          // Reference to the user's profile document
           const userProfileDocRef = window.firebaseFirestore.doc(
             dbInstance,
             'artifacts',
@@ -1046,6 +1035,7 @@
           );
 
           console.log("App: Setting up onSnapshot for user profile at:", userProfileDocRef.path);
+          // Real-time listener for profile changes
           unsubscribeProfile = window.firebaseFirestore.onSnapshot(userProfileDocRef, async (docSnap) => {
             if (docSnap.exists()) {
               const data = docSnap.data();
@@ -1056,7 +1046,7 @@
                 localStorage.setItem('mercato_selected_country', fetchedCountry);
               }
             } else {
-              // Profile doesn't exist, create it with default country
+              // If profile doesn't exist, create it with a default country
               console.log("App: User profile does not exist. Creating with default country: SA");
               const defaultCountry = 'SA';
               await window.firebaseFirestore.setDoc(userProfileDocRef, {
@@ -1064,7 +1054,7 @@
                 createdAt: window.firebaseFirestore.serverTimestamp(),
                 country: defaultCountry,
                 name: ''
-              }, { merge: true });
+              }, { merge: true }); // Use merge to avoid overwriting existing fields if any
               setUserCountry(defaultCountry);
               localStorage.setItem('mercato_selected_country', defaultCountry);
             }
@@ -1074,10 +1064,11 @@
           });
         }
 
+        // Cleanup function for the effect
         return () => unsubscribeProfile();
-      }, [currentUser, showModal, userCountry]);
+      }, [currentUser, showModal, userCountry]); // Re-run effect if these dependencies change
 
-      // Mapping country codes to full names for display - UPDATED LIST
+      // Mapping country codes to full Arabic names for display
       const countryNames = {
           'KW': 'الكويت',
           'QA': 'قطر',
@@ -1147,9 +1138,10 @@
                 'profile'
             );
             
+            // Update the user's country in Firestore
             await window.firebaseFirestore.setDoc(userProfileDocRef, { country: newCountryCode }, { merge: true });
             
-            // onSnapshot listener will pick this up and update `userCountry` state
+            // The onSnapshot listener will pick this up and update `userCountry` state automatically
             showModal('تم التغيير!', `تم تغيير دولتك إلى ${countryNames[newCountryCode] || newCountryCode}.`);
             console.log("App: Country updated in Firestore to:", newCountryCode);
 
@@ -1173,6 +1165,7 @@
 
           try {
               const dbInstance = window.firebaseFirestore.getFirestore();
+              // Reference to the user's cart items collection
               const cartItemsCollectionRef = window.firebaseFirestore.collection(
                   dbInstance,
                   'artifacts',
@@ -1183,23 +1176,26 @@
               );
               console.log("Adding to cart: Cart collection path:", cartItemsCollectionRef.path);
 
+              // Check if the product already exists in the cart
               const q = window.firebaseFirestore.query(cartItemsCollectionRef, window.firebaseFirestore.where('productId', '==', product.id));
               console.log("Adding to cart: Checking for existing item with productId:", product.id);
               const querySnapshot = await window.firebaseFirestore.getDocs(q);
 
               if (!querySnapshot.empty) {
+                  // If product exists, update its quantity
                   const existingDocRef = querySnapshot.docs[0].ref;
                   const currentQuantity = querySnapshot.docs[0].data().quantity || 0;
                   await window.firebaseFirestore.updateDoc(
                       existingDocRef,
                       {
                           quantity: currentQuantity + 1,
-                          updatedAt: window.firebaseFirestore.serverTimestamp()
+                          updatedAt: window.firebaseFirestore.serverTimestamp() // Update timestamp
                       }
                   );
                   showModal('تم التحديث!', `تم تحديث كمية المنتج "${product.name}" في سلتك إلى ${currentQuantity + 1}.`);
                   console.log("Cart: Updated quantity for existing product:", product.name);
               } else {
+                  // If product is new, add it to the cart
                   await window.firebaseFirestore.addDoc(cartItemsCollectionRef, {
                       productId: product.id, 
                       name: product.name,
@@ -1207,30 +1203,28 @@
                       img: product.img,
                       link: product.link,
                       quantity: 1, 
-                      createdAt: window.firebaseFirestore.serverTimestamp(),
-                      userId: currentUser.uid 
+                      createdAt: window.firebaseFirestore.serverTimestamp(), // Set creation timestamp
+                      userId: currentUser.uid // Store user ID with cart item
                   });
                   showModal('تمت الإضافة بنجاح!', `تم إضافة المنتج "${product.name}" إلى سلتك.`);
                   console.log("Cart: Added new product:", product.name);
               }
-              // Optional: Redirect to cart.html after successful add
-              // window.location.href = 'cart.html';
           } catch (error) {
               console.error("Error adding to cart: ", error);
               showModal('خطأ في إضافة المنتج', `تعذر إضافة المنتج إلى السلة: ${error.message}`, true);
           }
-      }, [currentUser, showModal]); 
+      }, [currentUser, showModal]); // Re-create if currentUser or showModal changes
 
       return (
         <div dir="rtl" className="flex flex-col min-h-screen">
           {/* Header remains fixed at the top */}
-          <Header pageTitle="عروض اليوم" currentUser={currentUser} />
+          <Header pageTitle="العروض اليومية" currentUser={currentUser} />
           
           {/* Main scrollable content area - takes remaining vertical space */}
           <div className="flex-grow overflow-y-auto main-scroll-content">
             <main className="container mx-auto my-10 px-2.5 relative z-30">
                 <h2 className="text-4xl font-extrabold text-[#F8F8F8] text-center mb-6 mt-12 animate-fade-in-up">
-                أفضل العروض اليومية
+                عروض اليوم المميزة
                 </h2>
 
                 {/* Display and allow change of user country */}
@@ -1264,7 +1258,7 @@
                     </div>
                 </div>
 
-                {/* عناصر التحكم في الفرز */}
+                {/* Sorting Controls */}
                 <div className="flex justify-end mb-4">
                 <div className="relative inline-block text-[#F8F8F8]">
                     <select
@@ -1284,9 +1278,10 @@
                     </div>
                 </div>
 
+                {/* Product Display Grid for Daily Deals */}
                 <ProductDisplayGrid 
                     searchTerm={currentSearchTerm} 
-                    categoryCode="daily-deals" /* Category code for "Daily Deals" */
+                    categoryCode="dailyDeals" /* Category code for "Daily Deals" */
                     sortBy={sortBy} 
                     sortOrder={sortOrder} 
                     userCountry={userCountry} 
@@ -1303,6 +1298,15 @@
         </div>
       );
     };
+
+    // Render initial loading screen until authentication check is complete
+    ReactDOM.render(
+      <div id="initial-loading" class="flex flex-col items-center justify-center min-h-screen">
+          <div class="loading-spinner"></div>
+          <p class="text-xl text-gray-300 mt-2">جاري التحقق من تسجيل الدخول...</p>
+      </div>,
+      document.getElementById('root')
+    );
   </script>
 </body>
 </html>
