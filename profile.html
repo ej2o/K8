@@ -325,7 +325,7 @@
     /* تحديث: تكبير حقول الإدخال وجعل النص أسود */
     .profile-card input, .profile-card select {
         background: #F8F8F8; /* خلفية إدخال فاتحة */
-        color: #1A2C42; /* نص إدخال داكن (أسود تقريباً) */
+        color: #000000; /* نص إدخال داكن جداً (أسود) */
         border: 1px solid #5A7D9D; /* حدود خفيفة */
         padding: 14px; /* زيادة حجم الحقل */
         border-radius: 8px;
@@ -975,7 +975,6 @@
               >
                 المعلومات الشخصية
               </button>
-              {/* تم حذف زر السلة من هنا بناءً على طلبك */}
               <button
                 onClick={() => setActiveTab('security')}
                 className={`tab-button ${activeTab === 'security' ? 'active' : ''}`}
@@ -1087,34 +1086,6 @@
                 >
                     تسجيل الخروج
                 </button>
-              </div>
-            )}
-
-            {activeTab === 'cart' && (
-              <div className="tab-content-section w-full max-w-lg mx-auto">
-                <h3 className="text-xl font-bold text-[#D4AF37] mb-4 text-center">عناصر السلة</h3>
-                {cartItems.length > 0 ? (
-                  <div className="space-y-4">
-                    {cartItems.map((item, index) => ( // إضافة index كمفتاح احتياطي
-                      <div key={item.id || index} className="bg-[#2C3E50] p-4 rounded-lg shadow-md flex items-center text-sm">
-                        <img src={item.img || `https://placehold.co/60x60/1F2E40/D4AF37?text=صورة`} alt={item.name} className="w-16 h-16 object-cover rounded-md ml-3 flex-shrink-0" />
-                        <div className="flex-grow">
-                          <p className="font-semibold text-white">{item.name}</p>
-                          <p className="text-[#D4AF37]">السعر: {item.displayPrice}</p> {/* استخدام displayPrice */}
-                          <p className="text-gray-300">الكمية: {item.quantity}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-gray-400 text-center">سلة التسوق فارغة.</p>
-                )}
-                <div className="text-center mt-6">
-                  <a href="cart.html" className="btn-primary inline-flex items-center text-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-shopping-cart ml-2"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57L23 4H5.2"/></svg>
-                    الانتقال إلى السلة للتعديل
-                  </a>
-                </div>
               </div>
             )}
 
