@@ -327,9 +327,11 @@
         background: #F8F8F8; /* خلفية إدخال فاتحة */
         color: #000000; /* نص إدخال داكن جداً (أسود) */
         border: 1px solid #5A7D9D; /* حدود خفيفة */
-        padding: 16px; /* زيادة حجم الحقل بشكل أكبر */
+        padding: 18px; /* زيادة حجم الحقل بشكل أكبر */
         border-radius: 8px;
-        font-size: 1.1rem; /* تكبير حجم النص داخل الحقول */
+        font-size: 1.2rem; /* تكبير حجم النص داخل الحقول */
+        line-height: 1.5; /* لتحسين التباعد الرأسي للنص */
+        height: auto; /* السماح للارتفاع بالتكيف مع المحتوى */
     }
     .profile-card input::placeholder, .profile-card select::placeholder {
         color: #A0AEC0; /* نص عنصر نائب أفتح */
@@ -387,8 +389,8 @@
         color: #D4AF37; /* لون ذهبي عند التحويم */
     }
     .password-toggle-button svg {
-        width: 20px;
-        height: 20px;
+        width: 24px; /* تكبير حجم أيقونة العين */
+        height: 24px;
     }
   </style>
 </head>
@@ -1141,6 +1143,7 @@
                                         className="w-full"
                                         placeholder="أدخل كلمة المرور القديمة"
                                         required
+                                        autoComplete="off"
                                     />
                                     <button
                                         type="button"
@@ -1166,6 +1169,7 @@
                                         className="w-full"
                                         placeholder="أدخل كلمة المرور الجديدة"
                                         required
+                                        autoComplete="new-password"
                                     />
                                     <button
                                         type="button"
@@ -1191,6 +1195,7 @@
                                         className="w-full"
                                         placeholder="أعد إدخال كلمة المرور الجديدة"
                                         required
+                                        autoComplete="new-password"
                                     />
                                     <button
                                         type="button"
@@ -1198,7 +1203,7 @@
                                         className="password-toggle-button"
                                     >
                                         {showConfirmNewPassword ? (
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.54 18.54 0 0 1 2.21-3.02M5.07 5.07A10.91 10.91 0 0 1 8 4c7 0 11 8 11 8a18.54 18.54 0 0 1-2.21 3.02M9.36 10.64a3 3 0 1 0 4.24 4.24M1 1l22 22"/></svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucude-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.54 18.54 0 0 1 2.21-3.02M5.07 5.07A10.91 10.91 0 0 1 8 4c7 0 11 8 11 8a18.54 18.54 0 0 1-2.21 3.02M9.36 10.64a3 3 0 1 0 4.24 4.24M1 1l22 22"/></svg>
                                         ) : (
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                                         )}
@@ -1278,6 +1283,7 @@
                                         className="w-full"
                                         placeholder="أدخل رمز التحقق"
                                         required
+                                        autoComplete="off"
                                     />
                                 </div>
                                 <div className="mb-4 password-input-container">
@@ -1292,6 +1298,7 @@
                                         className="w-full"
                                         placeholder="أدخل كلمة المرور الجديدة"
                                         required
+                                        autoComplete="new-password"
                                     />
                                     <button
                                         type="button"
@@ -1317,6 +1324,7 @@
                                         className="w-full"
                                         placeholder="أعد إدخال كلمة المرور الجديدة"
                                         required
+                                        autoComplete="new-password"
                                     />
                                     <button
                                         type="button"
